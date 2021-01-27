@@ -16,4 +16,3 @@ Create **backup** tar.gz archive in multiple processes and send to ftp or save t
 #### Save
 * Save to folder
 * Save to ftp
-* Save to ssh
