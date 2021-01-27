@@ -16,6 +16,7 @@ limitations under the License.
 
 import click
 
+from backupz2.src.click.group_backup import cli_backup
 from backupz2.src.common.config import Config
 from backupz2.src.components.helper import get_app_version, get_app_name
 
@@ -26,12 +27,14 @@ Config.init_conf()
 @click.pass_context
 @click.version_option(version=get_app_version(), prog_name=get_app_name())
 @click.option('--test', help='For test.', hidden=True, is_flag=True, default=False, is_eager=True)
-@click.option('--conf', '-c', default=None, help='Specify config path.', type=click.STRING, required=False)
-def cli(ctx, test, conf):
+@click.option('--config', default=None, help='Specify config path.', type=click.STRING, required=False)
+def cli(ctx, test, config):
     """Create backup tar.gz archive in multiple processes and send to ftp or save to folder."""
     if not test:
-        ctx.obj = Config(test, conf)
+        ctx.obj = Config(test, config)
 
+
+cli.add_command(cli_backup)
 
 if __name__ == '__main__':
     cli(obj={})

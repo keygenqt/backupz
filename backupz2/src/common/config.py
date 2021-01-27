@@ -22,6 +22,12 @@ from yaml import load
 from backupz2.src.components.helper import get_path_conf, get_default_conf
 
 CONF_FOLDERS = 'folders'
+CONF_FILES = 'files'
+CONF_COMPRESSION = 'compression'
+CONF_EXCLUDE = 'exclude'
+CONF_PROCESSES = 'processes'
+CONF_SAVE = 'save'
+CONF_FTP = 'ftp'
 
 
 class Config:
@@ -48,3 +54,33 @@ class Config:
                 return self.conf[name]
             else:
                 return []
+        if name == CONF_FILES:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return []
+        if name == CONF_COMPRESSION:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return 'fast'
+        if name == CONF_EXCLUDE:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return []
+        if name == CONF_PROCESSES:
+            if name in self.conf and isinstance(self.conf[name], int):
+                return self.conf[name]
+            else:
+                return 1
+        if name == CONF_SAVE:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return None
+        if name == CONF_FTP:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return None

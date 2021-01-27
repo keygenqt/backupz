@@ -1,14 +1,38 @@
 ### BackupZ2 Configuration Settings
 ---
 
-### Folders for backup
+# Folders for backup
 folders:
-  - /path/to/you/folder1
-  - /path/to/you/folder2
-  - /path/to/you/folder3
+  - /home/keygenqt/Documents/_test/MyLibrary-android
+  - /home/keygenqt/Documents/_test/MyLibrary-api
+  - /home/keygenqt/Documents/_test/MyLibrary-server
+  - /home/keygenqt/Documents/_test/MyLibrary-webapp
+  - /home/keygenqt/Documents/_test/MyLibrary-website
 
-### Files for backup
+# Files for backup
 files:
-  - /path/to/you/file1
-  - /path/to/you/file2
-  - /path/to/you/file3
+  - /home/keygenqt/Documents/_test/composer.json
+  - /home/keygenqt/Documents/_test/LICENSE.md
+  - /home/keygenqt/Documents/_test/README.md
+  - /home/keygenqt/Documents/_test/.yii
+
+# https://linux.die.net/man/1/pigz
+# Regulate the speed of compression using the specified digit #, where -1 or --fast indicates the
+# fastest compression method (less compression) and -9 or --best indicates the slowest compression
+# method (best compression). Level 0 is no compression.
+# 1 to 9 or fast/best
+compression: fast
+
+# https://linux.die.net/man/1/tar
+# Exclude by regex (tar --exclude)
+exclude:
+  - '*.idea*'
+
+# The number of cpu used
+processes: 32
+
+# Folder for save
+save: /home/keygenqt/Documents
+
+# FTP params for save
+ftp: username:pass@192.168.1.70:/Backup

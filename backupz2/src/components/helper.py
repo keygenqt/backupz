@@ -35,7 +35,7 @@ def get_path_conf(conf=None):
     if conf is not None:
         return conf
     else:
-        return '{}/.{}.yaml'.format(get_path_home(), get_app_name())
+        return '{}/.{}.yaml'.format(get_path_home(), get_app_name().lower())
 
 
 def get_default_conf():
