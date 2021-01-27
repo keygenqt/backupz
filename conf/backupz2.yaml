@@ -1,0 +1,14 @@
+### BackupZ2 Configuration Settings
+---
+
+### Folders for backup
+folders:
+  - /path/to/you/folder1
+  - /path/to/you/folder2
+  - /path/to/you/folder3
+
+### Files for backup
+files:
+  - /path/to/you/file1
+  - /path/to/you/file2
+  - /path/to/you/file3
