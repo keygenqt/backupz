@@ -8,7 +8,7 @@ BackupZ2
 Create **backup** tar.gz archive in multiple processes and send to ftp or save to folder.
 
 #### Basic functionality
-* Backup folder
+* Backup folders
 * Backup files
 * Exclude by regex (tar --exclude)
 * Multiple processes
