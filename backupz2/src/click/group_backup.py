@@ -15,30 +15,15 @@ limitations under the License.
 """
 import datetime
 import shutil
-import subprocess
-import tempfile
 
 from backupz2.src.common.config import *
+from backupz2.src.components.compress import Compress
 
 
 @click.group(name='backup')
 def cli_backup():
     """Backup."""
     pass
-
-
-def __backup(ctx, path_for_backup, tmp):
-    """Common backup."""
-    compression = ctx.obj.get(CONF_COMPRESSION)
-    processes = ctx.obj.get(CONF_PROCESSES)
-    path_to_backup = '{}/{}.tar.gz'.format(tmp, path_for_backup.name.strip('.'))
-    command = 'tar --absolute-names --use-compress-program="pigz {} --recursive -p {}" -cf {} {}'.format(
-        ('--{}'.format('{}'.format(compression).strip('-')), '-{}'.format('{}'.format(compression).strip('-')))[isinstance(compression, int)],
-        processes,
-        path_to_backup,
-        path_for_backup.absolute()
-    )
-    subprocess.run([command], shell=True)
 
 
 @cli_backup.command()
@@ -52,63 +37,15 @@ def ftp(ctx):
 @click.pass_context
 def folder(ctx):
     """Backup and save to folder."""
+    tmp = Compress(ctx).run()
 
-    error_not_is_folder = []
-    error_not_is_file = []
-    error_not_exist = []
-
-    tmp = tempfile.mkdtemp()
+    save = ctx.obj.get(CONF_SAVE)
     name = ctx.obj.get(CONF_NAME)
-    save = Path('{}/{}'.format(ctx.obj.get(CONF_SAVE), datetime.datetime.now().strftime(name)))
+    path = Path('{}/{}'.format(save, datetime.datetime.now().strftime(name)))
 
-    len_folders = len(ctx.obj.get(CONF_FOLDERS))
-    with click.progressbar(range(len_folders)) as bar:
+    if path.exists():
+        shutil.rmtree(path)
 
-        click.echo(click.style("\nStart compress folders: {}\n".format(len_folders), fg="blue"))
+    shutil.move(tmp, path)
 
-        # compress folders
-        for i in bar:
-            item = ctx.obj.get(CONF_FOLDERS)[i]
-            path = Path(item)
-            if not path.exists():
-                error_not_exist.append(click.style('{}'.format(path.absolute()), fg="red"))
-            elif not path.is_dir():
-                error_not_is_folder.append(click.style('{}'.format(path.absolute()), fg="red"))
-            else:
-                __backup(ctx, Path(item), tmp)
-
-    len_files = len(ctx.obj.get(CONF_FILES))
-    with click.progressbar(range(len_files)) as bar2:
-
-        click.echo(click.style("\nStart compress files: {}\n".format(len_files), fg="blue"))
-
-        # compress files
-        for i in bar2:
-            item = ctx.obj.get(CONF_FILES)[i]
-            path = Path(item)
-            if not path.exists():
-                error_not_exist.append(click.style('{}'.format(path.absolute()), fg="red"))
-            elif not path.is_file():
-                error_not_is_file.append(click.style('{}'.format(path.absolute()), fg="red"))
-            else:
-                __backup(ctx, Path(item), tmp)
-
-    if error_not_exist:
-        click.echo(click.style("\nNot exist:", fg="red"))
-        for e in error_not_exist:
-            click.echo(e)
-
-    if error_not_is_folder:
-        click.echo(click.style("\nNot is folder:", fg="red"))
-        for e in error_not_is_folder:
-            click.echo(e)
-
-    if error_not_is_file:
-        click.echo(click.style("\nNot is file:", fg="red"))
-        for e in error_not_is_file:
-            click.echo(e)
-
-    if save.exists():
-        shutil.rmtree(save)
-
-    shutil.move(tmp, save)
+    click.echo(click.style("\nDone successfully\n", fg="green"))
