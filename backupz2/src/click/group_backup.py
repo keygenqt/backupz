@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import datetime
 import shutil
 import subprocess
 import tempfile
@@ -37,7 +38,6 @@ def __backup(ctx, path_for_backup, tmp):
         path_to_backup,
         path_for_backup.absolute()
     )
-    print(command)
     subprocess.run([command], shell=True)
 
 
@@ -53,25 +53,62 @@ def ftp(ctx):
 def folder(ctx):
     """Backup and save to folder."""
 
-    # tmp = tempfile.mkdtemp()
-    tmp = '/home/keygenqt/test'
+    error_not_is_folder = []
+    error_not_is_file = []
+    error_not_exist = []
 
-    # compress folders
-    for item in ctx.obj.get(CONF_FOLDERS):
-        path = Path(item)
-        if not path.exists():
-            click.echo('Not exist')
-        if not path.is_dir():
-            click.echo('Not dir')
-        __backup(ctx, Path(item), tmp)
+    tmp = tempfile.mkdtemp()
+    name = ctx.obj.get(CONF_NAME)
+    save = Path('{}/{}'.format(ctx.obj.get(CONF_SAVE), datetime.datetime.now().strftime(name)))
 
-    # compress files
-    for item in ctx.obj.get(CONF_FILES):
-        path = Path(item)
-        if not path.exists():
-            click.echo('Not exist')
-        if not path.is_file():
-            click.echo('Not file')
-        __backup(ctx, Path(item), tmp)
+    len_folders = len(ctx.obj.get(CONF_FOLDERS))
+    with click.progressbar(range(len_folders)) as bar:
 
-    # shutil.rmtree(tmp, ignore_errors=False, onerror=None)
+        click.echo(click.style("\nStart compress folders: {}\n".format(len_folders), fg="blue"))
+
+        # compress folders
+        for i in bar:
+            item = ctx.obj.get(CONF_FOLDERS)[i]
+            path = Path(item)
+            if not path.exists():
+                error_not_exist.append(click.style('{}'.format(path.absolute()), fg="red"))
+            elif not path.is_dir():
+                error_not_is_folder.append(click.style('{}'.format(path.absolute()), fg="red"))
+            else:
+                __backup(ctx, Path(item), tmp)
+
+    len_files = len(ctx.obj.get(CONF_FILES))
+    with click.progressbar(range(len_files)) as bar2:
+
+        click.echo(click.style("\nStart compress files: {}\n".format(len_files), fg="blue"))
+
+        # compress files
+        for i in bar2:
+            item = ctx.obj.get(CONF_FILES)[i]
+            path = Path(item)
+            if not path.exists():
+                error_not_exist.append(click.style('{}'.format(path.absolute()), fg="red"))
+            elif not path.is_file():
+                error_not_is_file.append(click.style('{}'.format(path.absolute()), fg="red"))
+            else:
+                __backup(ctx, Path(item), tmp)
+
+    if error_not_exist:
+        click.echo(click.style("\nNot exist:", fg="red"))
+        for e in error_not_exist:
+            click.echo(e)
+
+    if error_not_is_folder:
+        click.echo(click.style("\nNot is folder:", fg="red"))
+        for e in error_not_is_folder:
+            click.echo(e)
+
+    if error_not_is_file:
+        click.echo(click.style("\nNot is file:", fg="red"))
+        for e in error_not_is_file:
+            click.echo(e)
+
+    if save.exists():
+        shutil.rmtree(save)
+
+    shutil.move(tmp, save)

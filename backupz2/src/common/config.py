@@ -26,6 +26,7 @@ CONF_FILES = 'files'
 CONF_COMPRESSION = 'compression'
 CONF_EXCLUDE = 'exclude'
 CONF_PROCESSES = 'processes'
+CONF_NAME = 'name'
 CONF_SAVE = 'save'
 CONF_FTP = 'ftp'
 
@@ -84,3 +85,8 @@ class Config:
                 return self.conf[name]
             else:
                 return None
+        if name == CONF_NAME:
+            if name in self.conf:
+                return self.conf[name]
+            else:
+                return 'backupz_%d_%m_%Y'
