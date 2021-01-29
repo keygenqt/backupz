@@ -91,11 +91,10 @@ def folder(ctx):
     name = ctx.obj.get(CONF_NAME)
     path = Path('{}/{}'.format(save, datetime.datetime.now().strftime(name)))
 
-    tmp = Compress(ctx).run()
-
     if path.exists():
-        shutil.rmtree(path)
+        click.echo('{} {}\n'.format(click.style('\nFolder already exist:', fg="red"), path))
+        exit(0)
 
+    tmp = Compress(ctx).run()
     shutil.move(tmp, path)
-
     click.echo(click.style("\nDone successfully\n", fg="green"))
