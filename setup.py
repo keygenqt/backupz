@@ -19,7 +19,7 @@ setuptools.setup(
         'click',
         'pyYaml',
     ],
-    python_requires='==3.6.*',
+    python_requires='>=3.6',
     entry_points="""
         [console_scripts]
         backupz2 = backupz2.__main__:cli
