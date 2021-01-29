@@ -24,6 +24,11 @@ Create **backup** tar.gz archive in multiple processes and send to ftp or save t
 #### pyz
 
 ```shell
+# dependency
+sudo apt install tar
+sudo apt install pigz
+
+# upload app
 wget https://github.com/keygenqt/BackupZ2/raw/master/data/backupz2.pyz
 ```
 
@@ -34,6 +39,8 @@ python3 backupz2.pyz folder
 # backup to FTP
 python3 backupz2.pyz ftp
 ```
+
+####
 
 #### snap
 
