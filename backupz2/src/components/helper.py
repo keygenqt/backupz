@@ -18,13 +18,14 @@ from pathlib import Path
 
 from backupz2.src.common.default_conf import gen_default_conf
 
+SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
+
 
 def get_path_home():
-    SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
-    if not SNAP_USER_COMMON:
-        return Path.home()
-    else:
+    if SNAP_USER_COMMON:
         return Path(SNAP_USER_COMMON)
+    else:
+        return Path.home()
 
 
 def get_app_name():
@@ -32,14 +33,14 @@ def get_app_name():
 
 
 def get_app_version():
-    return '1.0.2'
+    return '1.0.3'
 
 
 def get_path_conf(conf=None):
     if conf is not None:
         return conf
     else:
-        return '{}/.{}.yaml'.format(get_path_home(), get_app_name().lower())
+        return '{}/{}{}.yaml'.format(get_path_home(), ('', '.')[SNAP_USER_COMMON is None], get_app_name().lower())
 
 
 def get_default_conf():

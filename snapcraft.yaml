@@ -1,6 +1,6 @@
 name: backupz2
 base: core18
-version: '1.0.2'
+version: '1.0.3'
 summary: Create backup tar.gz archive
 description: |
   Create backup tar.gz archive in multiple processes and send to ftp or save to folder.
