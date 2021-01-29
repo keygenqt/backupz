@@ -13,14 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+import os
 from pathlib import Path
 
 from backupz2.src.common.default_conf import gen_default_conf
 
 
 def get_path_home():
-    return Path.home()
+    SNAP_USER_COMMON = os.getenv('SNAP_USER_COMMON')
+    if not SNAP_USER_COMMON:
+        return Path.home()
+    else:
+        return Path(SNAP_USER_COMMON)
 
 
 def get_app_name():
@@ -28,7 +32,7 @@ def get_app_name():
 
 
 def get_app_version():
-    return '1.0.1'
+    return '1.0.2'
 
 
 def get_path_conf(conf=None):
