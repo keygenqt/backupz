@@ -19,8 +19,6 @@ Create **backup** tar.gz archive in multiple processes and send to ftp or save t
 * Save to folder
 * Save to ftp
 
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/backupz2)
-
 ### Install
 
 #### pyz
