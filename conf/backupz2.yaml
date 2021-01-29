@@ -3,36 +3,36 @@
 
 # Folders for backup
 folders:
-  - /home/keygenqt/Documents/_test/MyLibrary-android
-  - /home/keygenqt/Documents/_test/MyLibrary-api
-  - /home/keygenqt/Documents/_test/MyLibrary-server
-  - /home/keygenqt/Documents/_test/MyLibrary-webapp
-  - /home/keygenqt/Documents/_test/MyLibrary-website
+  - /path/to/you/folder1
+  - /path/to/you/folder2
+  - /path/to/you/folder3
 
 # Files for backup
 files:
-  - /home/keygenqt/Documents/_test/composer.json
-  - /home/keygenqt/Documents/_test/LICENSE.md
-  - /home/keygenqt/Documents/_test/README.md
-  - /home/keygenqt/Documents/_test/.yii
+  - /path/to/you/file1
+  - /path/to/you/file2
+  - /path/to/you/file3
 
 # https://linux.die.net/man/1/pigz
 # Regulate the speed of compression using the specified digit #, where -1 or --fast indicates the
 # fastest compression method (less compression) and -9 or --best indicates the slowest compression
 # method (best compression). Level 0 is no compression.
 # 1 to 9 or fast/best
-compression: fast
+compression: best
 
 # https://linux.die.net/man/1/tar
 # Exclude by regex (tar --exclude)
 exclude:
   - '*.idea*'
 
+# Name folder for save backup
+name: 'backupz_%d_%m_%Y'
+
 # The number of cpu used
 processes: 32
 
 # Folder for save
-save: /home/keygenqt/Documents
+folder: /folder/for/save/backup
 
 # FTP params for save
-ftp: username:pass@192.168.1.70:/Backup
+ftp: user:password@192.168.1.1:/ftp/path/to/your/backup

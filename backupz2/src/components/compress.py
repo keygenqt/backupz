@@ -46,7 +46,7 @@ class Compress:
         """Compress list files, folders"""
         len_array = len(array)
         with click.progressbar(range(len_array)) as bar:
-            time.sleep(0.7)
+            time.sleep(1)
             click.echo(click.style("\nStart compress {}: {}\n".format(('folders', 'files')[is_file], len_array), fg="blue"))
             for i in bar:
                 self.__backup(Path(array[i]), tmp)
