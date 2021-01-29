@@ -44,10 +44,17 @@ def ftp(ctx):
     password = params[3]
     path = '{}/{}'.format(params[2], datetime.datetime.now().strftime(name))
 
-    session = ftplib.FTP(hostname)
+    def get_connect():
+        try:
+            return ftplib.FTP(hostname)
+        except ConnectionRefusedError:
+            click.echo('{} {}\n'.format(click.style('\nError FTP login:', fg="red"), cftp))
+            exit(0)
+
+    session = get_connect()
     response = session.login(username, password)
     if '230' not in response:
-        click.echo('{} {}\n'.format(click.style('\nError FTP login:', fg="red"), ftp))
+        click.echo('{} {}\n'.format(click.style('\nError FTP login:', fg="red"), cftp))
         exit(0)
 
     try:

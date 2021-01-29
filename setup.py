@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='backupz2',
-    version='1.0.0',
+    version='1.0.1',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='Create backup tar.gz archive in multiple processes and send to ftp or save to folder.',

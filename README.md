@@ -3,7 +3,7 @@ BackupZ2
 
 ![picture](data/icon-160.png)
 
-***Version**: in progress*
+***Version**: 1.0.1*
 
 Create **backup** tar.gz archive in multiple processes and send to ftp or save to folder.
 
