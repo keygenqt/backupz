@@ -14,9 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import click
-
-from backupz2.src.click.group_backup import cli_backup
+from backupz2.src.click.commands import *
 from backupz2.src.common.config import Config
 from backupz2.src.components.helper import get_app_version, get_app_name
 
@@ -34,7 +32,8 @@ def cli(ctx, test, config):
         ctx.obj = Config(test, config)
 
 
-cli.add_command(cli_backup)
+cli.add_command(folder)
+cli.add_command(ftp)
 
 if __name__ == '__main__':
     cli(obj={})

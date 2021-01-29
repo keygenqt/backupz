@@ -11,6 +11,7 @@ class Compress:
         self.folders = ctx.obj.get(CONF_FOLDERS)
         self.processes = ctx.obj.get(CONF_PROCESSES)
         self.compression = ctx.obj.get(CONF_COMPRESSION)
+        self.exclude = ctx.obj.get(CONF_EXCLUDE)
         self.names = []
 
     def run(self):
@@ -34,6 +35,12 @@ class Compress:
         self.__compress_list(tmp, self.folders, False)
 
         return tmp
+
+    def __get_exclude(self):
+        result = []
+        for e in self.exclude:
+            result.append('--exclude="{}"'.format(e))
+        return ' '.join(result)
 
     def __compress_list(self, tmp, array, is_file):
         """Compress list files, folders"""
@@ -69,11 +76,13 @@ class Compress:
 
     def __backup(self, path_for_backup, tmp):
         """Create backup."""
+        exclude = self.__get_exclude()
         path_to_backup = '{}/{}.tar.gz'.format(tmp, self.__get_name(path_for_backup.name.strip('.')))
-        command = 'tar --absolute-names --use-compress-program="pigz {} --recursive -p {}" -cf {} {}'.format(
+        command = 'tar --absolute-names --use-compress-program="pigz {} --recursive -p {}" {} -cf {} {}'.format(
             ('--{}'.format('{}'.format(self.compression).strip('-')), '-{}'.format('{}'.format(self.compression).strip('-')))[
                 isinstance(self.compression, int)],
             self.processes,
+            exclude,
             path_to_backup,
             path_for_backup.absolute()
         )

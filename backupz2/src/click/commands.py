@@ -20,28 +20,23 @@ from backupz2.src.common.config import *
 from backupz2.src.components.compress import Compress
 
 
-@click.group(name='backup')
-def cli_backup():
-    """Backup."""
-    pass
-
-
-@cli_backup.command()
+@click.command()
 @click.pass_context
 def ftp(ctx):
     """Backup and send to ftp."""
     pass
 
 
-@cli_backup.command()
+@click.command()
 @click.pass_context
 def folder(ctx):
     """Backup and save to folder."""
-    tmp = Compress(ctx).run()
 
-    save = ctx.obj.get(CONF_SAVE)
+    save = ctx.obj.get(CONF_FOLDER)
     name = ctx.obj.get(CONF_NAME)
     path = Path('{}/{}'.format(save, datetime.datetime.now().strftime(name)))
+
+    tmp = Compress(ctx).run()
 
     if path.exists():
         shutil.rmtree(path)

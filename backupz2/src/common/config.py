@@ -27,7 +27,7 @@ CONF_COMPRESSION = 'compression'
 CONF_EXCLUDE = 'exclude'
 CONF_PROCESSES = 'processes'
 CONF_NAME = 'name'
-CONF_SAVE = 'save'
+CONF_FOLDER = 'folder'
 CONF_FTP = 'ftp'
 
 
@@ -75,8 +75,12 @@ class Config:
                 return self.conf[name]
             else:
                 return 1
-        if name == CONF_SAVE:
+        if name == CONF_FOLDER:
             if name in self.conf:
+                path = Path(self.conf[name])
+                if not path.exists() or not path.is_dir():
+                    click.echo('{} {}\n'.format(click.style('\nError folder for save:', fg="red"), path.absolute()))
+                    exit(0)
                 return self.conf[name]
             else:
                 return None
