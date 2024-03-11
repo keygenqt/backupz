@@ -1,8 +1,14 @@
+# IDE
+.idea
+.vscode
+
+# Python
 /*.egg-info/
 /venv/
 /dist/
 /build/
-/.idea/
-/*.pyz
+.pypirc
 /*.snap
-_backupz2.yaml
+
+# MkDocs
+docs-static

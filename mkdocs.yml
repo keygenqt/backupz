@@ -1,0 +1,70 @@
+site_name: Backupz
+repo_name: Backupz GitHub
+site_dir: docs-static
+site_url: https://keygenqt.github.io/backupz
+repo_url: https://github.com/keygenqt/backupz
+site_description: Create and save a backup archive in multiple processes.
+
+# Navigation
+nav:
+  - Main:
+      - Backupz: index.md
+      - Links:
+          - PyPi: https://pypi.org/project/backupz
+          - GitHub: https://github.com/keygenqt/backupz
+          - Versions: https://github.com/keygenqt/backupz/tags
+
+# Assets
+extra_css:
+  - assets/css/main.css
+
+# Extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  custom_dir: docs/assets
+  favicon: images/favicon.ico
+  logo: images/favicon.ico
+  features:
+    - toc.integrate
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono

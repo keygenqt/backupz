@@ -1,0 +1,8 @@
+/*.egg-info/
+/venv/
+/dist/
+/build/
+/.idea/
+/*.pyz
+/*.snap
+_backupz2.yaml

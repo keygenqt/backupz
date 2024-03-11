@@ -1,20 +1,6 @@
-Backupz
-===================
+[![PyPI version](https://badge.fury.io/py/backupz.svg)](https://badge.fury.io/py/backupz)
 
-### Subscribe and like! <img src="https://github.com/keygenqt/backupz/blob/main/data/other/star.gif?raw=true" width="16px"/>
-
-[![PyPI version](https://badge.fury.io/py/backupz.svg?v=1)](https://badge.fury.io/py/backupz)
-
-![picture](https://github.com/keygenqt/backupz/blob/main/data/banners/banner_round.png?raw=true)
-
-Create and save a backup archive in multiple processes.
-
-#### Documentation:
-<p>
-    <a href="https://keygenqt.github.io/backupz">
-        <img src="data/other/see_more.gif" width="136px"/>
-    </a>
-</p>
+![picture](images/banner_round.png)
 
 ### License
 
