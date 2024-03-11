@@ -1,4 +1,4 @@
-BackupZ2
+Backupz
 ===================
 
 ![picture](data/icon-160.png)
