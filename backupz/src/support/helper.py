@@ -17,6 +17,17 @@ import os
 from pathlib import Path
 
 
+# Get full path folder
+def get_path_folder(
+        path: str
+) -> Path | None:
+    path = get_path_file(path, False)
+    if path.is_dir():
+        return path
+    else:
+        return None
+
+
 # Get full path file
 def get_path_file(
         path: str,

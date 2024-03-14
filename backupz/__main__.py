@@ -15,9 +15,11 @@ limitations under the License.
 """
 import click
 
+from backupz.src.features.group_make import group_make
 from backupz.src.support.conf import Conf
 from backupz.src.support.dependency import check_dependency_init
 
+# @todo check all dependency?
 check_dependency_init()
 
 
@@ -32,6 +34,7 @@ check_dependency_init()
 @click.pass_context
 def main(ctx: {}, conf: str):
     ctx.obj = Conf(conf)
+    group_make(ctx)
 
 
 if __name__ == '__main__':

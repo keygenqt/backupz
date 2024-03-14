@@ -37,3 +37,7 @@ class AppTexts(Enum):
     @staticmethod
     def error_load_key(key: str):
         return '<red>Error reading configuration file. Check the</red> "{}" <red>parameter.</red>'.format(key)
+
+    @staticmethod
+    def error_found_folder_for_save(path: str):
+        return '<red>Folder for save not found:</red> {}'.format(path)
