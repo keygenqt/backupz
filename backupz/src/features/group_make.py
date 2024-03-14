@@ -14,11 +14,43 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from backupz.src.support.helper import get_path_folder, get_path_file
+from backupz.src.support.output import echo_stderr
+from backupz.src.support.texts import AppTexts
+
 
 # Create archive with backup
 def group_make(ctx: {}):
     """Generate backup."""
-    print(ctx.obj.get_backup_paths())
+
+    files = []
+    folders = []
+
+    # Parse backup file and folder from config
+    for item in ctx.obj.get_backup_paths():
+        # is a file
+        path = get_path_file(item)
+        if path:
+            files.append(path)
+            continue
+        # is a folder
+        path = get_path_folder(item)
+        if path:
+            folders.append(path)
+            continue
+        echo_stderr(AppTexts.error_found_path(item))
+        exit(1)
+
+# tar \
+# 	--absolute-names \
+# 	--use-compress-program="pigz --best --recursive -p 32" \
+# 	-cf \
+# 	test.tar.gz \
+# 	--exclude="*.png" \
+# 	/home/keygenqt/Documents/test_backupz/audio.mp3 \
+# 	/home/keygenqt/Documents/test_backupz/audio2.mp3 \
+# 	/home/keygenqt/Documents/test_backupz/audio3.png
+
     print(ctx.obj.get_exclude())
     print(ctx.obj.get_compression())
     print(ctx.obj.get_name())

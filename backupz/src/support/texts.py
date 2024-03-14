@@ -41,3 +41,8 @@ class AppTexts(Enum):
     @staticmethod
     def error_found_folder_for_save(path: str):
         return '<red>Folder for save not found:</red> {}'.format(path)
+
+    @staticmethod
+    def error_found_path(path: str):
+        return ('<red>Check your configuration file.</red>\n'
+                '<yellow>No file or directory found along the path:</yellow> {}').format(path)
