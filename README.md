@@ -5,7 +5,7 @@ Backupz
 
 [![PyPI version](https://badge.fury.io/py/backupz.svg?v=1)](https://badge.fury.io/py/backupz)
 
-![picture](https://github.com/keygenqt/backupz/blob/main/data/banners/banner_round.png?raw=true)
+![picture](https://github.com/keygenqt/backupz/blob/main/data/banners/banner_round_grey.png?raw=true)
 
 Create and save a backup archive in multiple processes.
 
