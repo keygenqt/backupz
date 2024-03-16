@@ -44,9 +44,10 @@ backup:
 exclude: []
 
 # https://linux.die.net/man/1/pigz
-# Regulate the speed of compression using the specified digit #, where -1 or --fast indicates the
-# fastest compression method (less compression) and -9 or --best indicates the slowest compression
-# method. Level 0 is no compression.
+# Regulate the speed of compression using the specified digit,
+# where -1 or --fast indicates the fastest compression method
+# (less compression) and -9 or --best indicates the slowest
+# compression method. Level 0 is no compression.
 # 1 to 9 or fast/best
 compression: best
 
