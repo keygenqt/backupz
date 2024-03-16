@@ -2,6 +2,41 @@
 
 ![picture](images/banner_round.png)
 
+The application helps you create a backup from the necessary files or directories.
+The archive is created using [pigz](https://zlib.net/pigz/) - a parallel implementation of gzip for modern multi-processor, multi-core machines.
+With cron you can schedule your backups and keep your data intact.
+Using the configuration file, you can configure your backups in detail.
+You can have several configuration files for different cases.
+
+This is the default configuration file:
+
+```yaml
+## Application configuration file Backupz
+## Version config: 0.0.2
+
+# Folders and files for backup
+backup:
+  - ~/.backupz
+
+# https://linux.die.net/man/1/tar
+# Exclude by regex (tar --exclude)
+exclude: []
+
+# https://linux.die.net/man/1/pigz
+# Regulate the speed of compression using the specified digit #, where -1 or --fast indicates the
+# fastest compression method (less compression) and -9 or --best indicates the slowest compression
+# method. Level 0 is no compression.
+# 1 to 9 or fast/best
+compression: best
+
+# Name folder for save backup in format 'datetime.strftime'
+# https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+name: 'backupz_%d_%m_%Y'
+
+# Folder for save
+folder: ~/
+```
+
 ### License
 
 ```
