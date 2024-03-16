@@ -23,12 +23,19 @@ from backupz.src.support.texts import AppTexts
 def check_dependency_init():
     # Check git application
     try:
-        subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(['du', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stderr(AppTexts.error_dependency_git())
+        echo_stderr(AppTexts.error_dependency_du())
         exit(1)
 
-    # Check git application
+    # Check tar application
+    try:
+        subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_tar())
+        exit(1)
+
+    # Check pigz application
     try:
         subprocess.run(['pigz', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):

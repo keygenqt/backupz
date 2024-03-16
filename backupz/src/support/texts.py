@@ -19,12 +19,34 @@ from enum import Enum
 # Application texts
 class AppTexts(Enum):
     @staticmethod
-    def error_dependency_git():
-        return '<red>Application</red> "git" <red>not found, install it.</red>'
+    def error_dependency_du():
+        return '<red>Application</red> "du" <red>not found, install it.</red>'
+
+    @staticmethod
+    def error_dependency_tar():
+        return '<red>Application</red> "tar" <red>not found, install it.</red>'
 
     @staticmethod
     def error_dependency_pigz():
         return '<red>Application</red> "pigz" <red>not found, install it.</red>'
+
+    @staticmethod
+    def error_load_key(key: str):
+        return '<red>Error reading configuration file. Check the</red> "{}" <red>parameter.</red>'.format(key)
+
+    @staticmethod
+    def error_empty_data():
+        return ('<red>Check your configuration file.</red>\n'
+                '<yellow>No files were found to archive.</yellow>')
+
+    @staticmethod
+    def error_found_folder_for_save(path: str):
+        return '<red>Folder for save not found:</red> {}'.format(path)
+
+    @staticmethod
+    def error_found_path(path: str):
+        return ('<red>Check your configuration file.</red>\n'
+                '<yellow>No file or directory found along the path:</yellow> {}').format(path)
 
     @staticmethod
     def confirm_init():
@@ -35,14 +57,13 @@ class AppTexts(Enum):
         return '<green>Configuration file added successfully:</green> {}'.format(path)
 
     @staticmethod
-    def error_load_key(key: str):
-        return '<red>Error reading configuration file. Check the</red> "{}" <red>parameter.</red>'.format(key)
+    def success_create_archive(path: str):
+        return '<green>Backup successfully created:</green> {}'.format(path)
 
     @staticmethod
-    def error_found_folder_for_save(path: str):
-        return '<red>Folder for save not found:</red> {}'.format(path)
+    def info_counting():
+        return '<blue>Size calculation...</blue>'
 
     @staticmethod
-    def error_found_path(path: str):
-        return ('<red>Check your configuration file.</red>\n'
-                '<yellow>No file or directory found along the path:</yellow> {}').format(path)
+    def info_start():
+        return '<blue>Start creating a backup...</blue>'

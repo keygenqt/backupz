@@ -14,7 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
+import subprocess
 from pathlib import Path
+from typing import Callable
+
+from cffi.backend_ctypes import unicode
 
 
 # Get full path folder
@@ -55,3 +59,37 @@ def get_path_file(
         return None
 
     return Path(path)
+
+
+# Common run pc command
+def pc_command(
+        args: [],
+        callback: Callable[[str, int], None] = None,
+) -> []:
+    is_error = False
+    result = []
+
+    def output(value: any, i: int) -> bool:
+        result.append(value)
+        if callback:
+            callback(value, i)
+        else:
+            return False
+
+    try:
+        with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
+            index = 1
+            for line in iter(lambda: process.stdout.readline(), ""):
+                if not line:
+                    break
+                line = unicode(line.rstrip(), "utf-8")
+                is_error = output(line, index)
+                index += 1
+
+    except Exception as e:
+        is_error = output(str(e), len(result))
+
+    if is_error:
+        exit(1)
+
+    return result

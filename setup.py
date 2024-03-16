@@ -43,6 +43,7 @@ setuptools.setup(
         'pyYaml>=6.0.1',
         'cffi>=1.16.0',
         'beautifulsoup4>=4.12.3',
+        'alive-progress>=3.1.5',
     ],
     python_requires='>=3.8.2',
     entry_points="""

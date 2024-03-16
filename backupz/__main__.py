@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+
 import click
 
 from backupz.src.features.group_make import group_make
@@ -21,6 +22,9 @@ from backupz.src.support.dependency import check_dependency_init
 
 # @todo check all dependency?
 check_dependency_init()
+
+# Path for save archive
+config: Conf | None = None
 
 
 @click.group(invoke_without_command=True)
@@ -31,11 +35,17 @@ check_dependency_init()
     help='Specify config path.',
     type=click.STRING,
     required=False)
-@click.pass_context
-def main(ctx: {}, conf: str):
-    ctx.obj = Conf(conf)
-    group_make(ctx)
+def main(conf: str):
+    global config
+    config = Conf(conf)
+    group_make(config)
 
 
 if __name__ == '__main__':
-    main(obj={})
+    try:
+        main(obj={}, standalone_mode=False)
+    except click.exceptions.Abort:
+        path_to_save = config.get_path_to_save()
+        # Remove file archive if abort
+        if path_to_save:
+            path_to_save.unlink()

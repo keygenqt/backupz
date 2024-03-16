@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
+from datetime import datetime
 from pathlib import Path
 
 import click.exceptions
@@ -49,7 +50,8 @@ exclude: []
 # 1 to 9 or fast/best
 compression: best
 
-# Name folder for save backup
+# Name folder for save backup in format 'datetime.strftime'
+# https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 name: 'backupz_%d_%m_%Y'
 
 # Folder for save
@@ -106,6 +108,12 @@ class Conf:
         with open(self.conf_path, 'rb') as file:
             self.conf = load(file.read(), Loader=Loader)
 
+    # Get path for save tar.gz archive
+    def get_path_to_save(self) -> Path:
+        return self.get_folder_for_save() / '{name}.tar.gz'.format(
+            name=datetime.now().strftime(self.get_name())
+        )
+
     # Get paths folder and files for backup
     def get_backup_paths(self) -> [str]:
         if 'backup' not in self.conf.keys():
@@ -132,18 +140,18 @@ class Conf:
 
     # Get level compression.
     # 1 to 9 or fast/best
-    def get_compression(self) -> int | str:
+    def get_compression(self) -> str:
         if 'compression' not in self.conf.keys():
             echo_stderr(AppTexts.error_load_key('compression'))
             exit(1)
         else:
             # Check int 0-9
             if isinstance(self.conf['compression'], int) and 0 <= self.conf['compression'] < 10:
-                return self.conf['compression']
+                return '-{}'.format(self.conf['compression'])
             # Check str best/fast
             if (isinstance(self.conf['compression'], str)
                     and (self.conf['compression'] == 'best' or self.conf['compression'] == 'fast')):
-                return self.conf['compression']
+                return '--{}'.format(self.conf['compression'])
             # Error
             echo_stderr(AppTexts.error_load_key('compression'))
             exit(1)
