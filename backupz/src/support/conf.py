@@ -21,6 +21,7 @@ import click.exceptions
 from yaml import Loader
 from yaml import load
 
+from backupz.src.support.data.data_ssh import DataSSH
 from backupz.src.support.helper import get_path_file, get_path_folder
 from backupz.src.support.output import echo_stdout, echo_stderr
 from backupz.src.support.texts import AppTexts
@@ -57,6 +58,15 @@ name: 'backupz_%d_%m_%Y'
 
 # Folder for save
 folder: ~/backupz
+
+# Array folders SSH for save
+# {
+#   ip: 192.168.2.15
+#   port: 22
+#   path: /path/to/folder
+#   auth: 'password' or '/path/to/id_rsa'
+# }
+ssh: []
 '''
 
 
@@ -182,3 +192,26 @@ class Conf:
                 echo_stderr(AppTexts.error_found_folder_for_save(self.conf['folder']))
                 exit(1)
             return path
+
+    # Get path to folder for save archive
+    def get_ssh_folders(self) -> [DataSSH]:
+        if 'ssh' not in self.conf.keys():
+            echo_stderr(AppTexts.error_load_key('ssh'))
+            exit(1)
+        else:
+            data_ssh: [DataSSH] = []
+            if not isinstance(self.conf['ssh'], list):
+                echo_stderr(AppTexts.error_load_key('ssh'))
+                exit(1)
+            for ssh in self.conf['ssh']:
+                if not DataSSH.validate(ssh):
+                    echo_stderr(AppTexts.error_load_key('ssh'))
+                    exit(1)
+                key = get_path_file(ssh['auth'])
+                data_ssh.append(DataSSH(
+                    ip=ssh['ip'],
+                    port=ssh['port'],
+                    path=ssh['path'],
+                    auth=key if key else ssh['auth'],
+                ))
+            return data_ssh

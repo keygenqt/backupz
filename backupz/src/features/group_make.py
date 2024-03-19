@@ -39,6 +39,10 @@ def _get_size_blocks(path_data: str, excludes: []) -> int | None:
 def group_make(config: Conf):
     """Generate backup."""
 
+    # @todo
+    print(config.get_ssh_folders())
+    exit(1)
+
     # Exclude files by regex
     excludes = ['--exclude={}'.format(exclude) for exclude in config.get_exclude()]
 
