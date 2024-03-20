@@ -34,7 +34,7 @@ APP_VERSION = '2.0.0'
 PATH_CONF = '~/.backupz/configuration.yaml'
 
 CHANGELOG_CONF = r'''## Application configuration file Backupz
-## Version config: 0.0.2
+## Version config: 0.0.3
 
 # Folders and files for backup
 backup:
@@ -61,7 +61,8 @@ folder: ~/backupz
 
 # Array folders SSH for save
 # {
-#   ip: 192.168.2.15
+#   hostname: 192.168.2.15
+#   username: defaultuser
 #   port: 22
 #   path: /path/to/folder
 #   auth: 'password' or '/path/to/id_rsa'
@@ -194,7 +195,7 @@ class Conf:
             return path
 
     # Get path to folder for save archive
-    def get_ssh_folders(self) -> [DataSSH]:
+    def get_data_ssh(self) -> [DataSSH]:
         if 'ssh' not in self.conf.keys():
             echo_stderr(AppTexts.error_load_key('ssh'))
             exit(1)
@@ -209,7 +210,8 @@ class Conf:
                     exit(1)
                 key = get_path_file(ssh['auth'])
                 data_ssh.append(DataSSH(
-                    ip=ssh['ip'],
+                    hostname=ssh['hostname'],
+                    username=ssh['username'],
                     port=ssh['port'],
                     path=ssh['path'],
                     auth=key if key else ssh['auth'],

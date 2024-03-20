@@ -67,3 +67,19 @@ class AppTexts(Enum):
     @staticmethod
     def info_start():
         return '<blue>Start creating a backup...</blue>'
+
+    @staticmethod
+    def success_upload_ssh(hostname: str):
+        return '<green>Upload to ssh</green> "{}" <green>successful.</green>'.format(hostname)
+
+    @staticmethod
+    def info_upload_ssh(hostname: str):
+        return '<blue>Start downloading via ssh:</blue> {}'.format(hostname)
+
+    @staticmethod
+    def error_connect_ssh(hostname: str):
+        return '<red>Error connect ssh to</red> "{}" <red>host.</red>'.format(hostname)
+
+    @staticmethod
+    def error_exception_ssh(message: str):
+        return '<red>Catch exception: {}</red>'.format(message)

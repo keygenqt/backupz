@@ -39,10 +39,6 @@ def _get_size_blocks(path_data: str, excludes: []) -> int | None:
 def group_make(config: Conf):
     """Generate backup."""
 
-    # @todo
-    print(config.get_ssh_folders())
-    exit(1)
-
     # Exclude files by regex
     excludes = ['--exclude={}'.format(exclude) for exclude in config.get_exclude()]
 
@@ -110,3 +106,6 @@ def group_make(config: Conf):
                ] + excludes + files + folders, callback=lambda out, _: update_bar(out))
 
     echo_stdout(AppTexts.success_create_archive(str(config.get_path_to_save())))
+
+    for ssh in config.get_data_ssh():
+        ssh.upload(config.get_path_to_save())

@@ -44,6 +44,7 @@ setuptools.setup(
         'cffi>=1.16.0',
         'beautifulsoup4>=4.12.3',
         'alive-progress>=3.1.5',
+        'paramiko>=3.4.0',
     ],
     python_requires='>=3.8.2',
     entry_points="""
