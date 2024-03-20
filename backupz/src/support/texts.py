@@ -83,3 +83,19 @@ class AppTexts(Enum):
     @staticmethod
     def error_exception_ssh(message: str):
         return '<red>Catch exception: {}</red>'.format(message)
+
+    @staticmethod
+    def success_upload_ftp(hostname: str):
+        return '<green>Upload to ftp</green> "{}" <green>successful.</green>'.format(hostname)
+
+    @staticmethod
+    def info_upload_ftp(hostname: str):
+        return '<blue>Start downloading via ftp:</blue> {}'.format(hostname)
+
+    @staticmethod
+    def error_connect_ftp(hostname: str):
+        return '<red>Error connect ftp to</red> "{}" <red>host.</red>'.format(hostname)
+
+    @staticmethod
+    def error_exception_ftp(message: str):
+        return '<red>Catch exception: {}</red>'.format(message)

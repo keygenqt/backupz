@@ -19,9 +19,6 @@ class DataSSH:
     path: str
     auth: str | Path
 
-    def get_connect(self) -> None:
-        pass
-
     @staticmethod
     def validate(data: dict) -> bool:
         if 'hostname' not in data.keys() or not isinstance(data['hostname'], str):
@@ -85,6 +82,8 @@ class DataSSH:
                 upload_path=self.path,
                 file_name=file.name
             ), callback=bar.update)
+            # Close connect
+            client.close()
         except ssh_exception.SSHException as e:
             echo_stderr(AppTexts.error_exception_ssh(str(e)))
         except FileNotFoundError as e:

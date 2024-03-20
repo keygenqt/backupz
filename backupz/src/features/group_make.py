@@ -107,5 +107,10 @@ def group_make(config: Conf):
 
     echo_stdout(AppTexts.success_create_archive(str(config.get_path_to_save())))
 
+    # Upload to ssh
     for ssh in config.get_data_ssh():
         ssh.upload(config.get_path_to_save())
+
+    # Upload to ftp
+    for ftp in config.get_data_ftp():
+        ftp.upload(config.get_path_to_save())

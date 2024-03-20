@@ -21,6 +21,7 @@ import click.exceptions
 from yaml import Loader
 from yaml import load
 
+from backupz.src.support.data.data_ftp import DataFTP
 from backupz.src.support.data.data_ssh import DataSSH
 from backupz.src.support.helper import get_path_file, get_path_folder
 from backupz.src.support.output import echo_stdout, echo_stderr
@@ -68,6 +69,16 @@ folder: ~/backupz
 #   auth: 'password' or '/path/to/id_rsa'
 # }
 ssh: []
+
+# Array folders FTP for save
+# {
+#   hostname: 192.168.2.15
+#   username: defaultuser
+#   password: '00000'
+#   port: 22
+#   path: /path/to/folder
+# }
+ftp: []
 '''
 
 
@@ -194,13 +205,13 @@ class Conf:
                 exit(1)
             return path
 
-    # Get path to folder for save archive
+    # Get ssh from config
     def get_data_ssh(self) -> [DataSSH]:
         if 'ssh' not in self.conf.keys():
             echo_stderr(AppTexts.error_load_key('ssh'))
             exit(1)
         else:
-            data_ssh: [DataSSH] = []
+            datas_ssh: [DataSSH] = []
             if not isinstance(self.conf['ssh'], list):
                 echo_stderr(AppTexts.error_load_key('ssh'))
                 exit(1)
@@ -209,11 +220,34 @@ class Conf:
                     echo_stderr(AppTexts.error_load_key('ssh'))
                     exit(1)
                 key = get_path_file(ssh['auth'])
-                data_ssh.append(DataSSH(
+                datas_ssh.append(DataSSH(
                     hostname=ssh['hostname'],
                     username=ssh['username'],
                     port=ssh['port'],
                     path=ssh['path'],
                     auth=key if key else ssh['auth'],
                 ))
-            return data_ssh
+            return datas_ssh
+
+    # Get ftp from config
+    def get_data_ftp(self) -> [DataFTP]:
+        if 'ftp' not in self.conf.keys():
+            echo_stderr(AppTexts.error_load_key('ftp'))
+            exit(1)
+        else:
+            datas_ftp: [DataFTP] = []
+            if not isinstance(self.conf['ftp'], list):
+                echo_stderr(AppTexts.error_load_key('ftp'))
+                exit(1)
+            for ftp in self.conf['ftp']:
+                if not DataFTP.validate(ftp):
+                    echo_stderr(AppTexts.error_load_key('ftp'))
+                    exit(1)
+                datas_ftp.append(DataFTP(
+                    hostname=ftp['hostname'],
+                    username=ftp['username'],
+                    password=ftp['password'],
+                    port=ftp['port'],
+                    path=ftp['path'],
+                ))
+            return datas_ftp
