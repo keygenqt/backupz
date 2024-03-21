@@ -55,13 +55,7 @@ class DataSSH:
                     timeout=5,
                 )
             return client
-        except ssh_exception.SSHException:
-            pass
-        except ssh_exception.NoValidConnectionsError:
-            pass
-        except socket.gaierror:
-            pass
-        except TimeoutError:
+        except (Exception,):
             pass
         return None
 
@@ -70,13 +64,14 @@ class DataSSH:
             # Create client
             client = self.__client()
             if not client:
-                echo_stderr(AppTexts.error_connect_ssh(self.hostname))
+                echo_stderr(AppTexts.error_connect('ssh', self.hostname))
+                return
 
             echo_line()
-            echo_stdout(AppTexts.info_upload_ssh(self.hostname))
+            echo_stdout(AppTexts.info_upload('ssh', self.hostname))
 
             # Create ssh bar
-            bar = ProgressAliveBar(AppTexts.success_upload_ssh(self.hostname))
+            bar = ProgressAliveBar(AppTexts.success_upload())
             # Upload file
             client.open_sftp().put(file, '{upload_path}/{file_name}'.format(
                 upload_path=self.path,
@@ -85,6 +80,6 @@ class DataSSH:
             # Close connect
             client.close()
         except ssh_exception.SSHException as e:
-            echo_stderr(AppTexts.error_exception_ssh(str(e)))
+            echo_stderr(AppTexts.error_exception(str(e)))
         except FileNotFoundError as e:
-            echo_stderr(AppTexts.error_exception_ssh(str(e)))
+            echo_stderr(AppTexts.error_exception(str(e)))

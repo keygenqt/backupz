@@ -34,7 +34,7 @@ class DataFTP:
     def __client(self) -> ftplib.FTP | None:
         try:
             client = ftplib.FTP()
-            client.connect(host=self.hostname, port=self.port)
+            client.connect(host=self.hostname, port=self.port, timeout=5)
             client.login(user=self.username, passwd=self.password)
             return client
         except (Exception,):
@@ -46,13 +46,14 @@ class DataFTP:
             # Create client
             client = self.__client()
             if not client:
-                echo_stderr(AppTexts.error_connect_ftp(self.hostname))
+                echo_stderr(AppTexts.error_connect('ftp', self.hostname))
+                return
 
             echo_line()
-            echo_stdout(AppTexts.info_upload_ftp(self.hostname))
+            echo_stdout(AppTexts.info_upload('ftp', self.hostname))
 
             # Create ftp bar
-            bar = ProgressAliveBar(AppTexts.success_upload_ftp(self.hostname))
+            bar = ProgressAliveBar(AppTexts.success_upload())
 
             # Load binary file
             file_binary = open(file, "rb")
@@ -73,6 +74,6 @@ class DataFTP:
             # Close connect
             client.close()
         except ftplib.all_errors as e:
-            echo_stderr(AppTexts.error_exception_ssh(str(e)))
+            echo_stderr(AppTexts.error_exception(str(e)))
         except FileNotFoundError as e:
-            echo_stderr(AppTexts.error_exception_ssh(str(e)))
+            echo_stderr(AppTexts.error_exception(str(e)))

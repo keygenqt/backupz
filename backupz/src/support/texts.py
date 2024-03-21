@@ -18,6 +18,8 @@ from enum import Enum
 
 # Application texts
 class AppTexts(Enum):
+    ########
+    # Errors
     @staticmethod
     def error_dependency_du():
         return '<red>Application</red> "du" <red>not found, install it.</red>'
@@ -49,9 +51,21 @@ class AppTexts(Enum):
                 '<yellow>No file or directory found along the path:</yellow> {}').format(path)
 
     @staticmethod
+    def error_connect(method: str, hostname: str):
+        return '<red>Error connect {} to</red> "{}" <red>host.</red>'.format(method, hostname)
+
+    @staticmethod
+    def error_exception(message: str):
+        return '<red>Catch exception: {}</red>'.format(message)
+
+    ##########
+    # Confirms
+    @staticmethod
     def confirm_init():
         return 'Add default backupz configuration file?'
 
+    #########
+    # Success
     @staticmethod
     def success_init(path: str):
         return '<green>Configuration file added successfully:</green> {}'.format(path)
@@ -61,6 +75,12 @@ class AppTexts(Enum):
         return '<green>Backup successfully created:</green> {}'.format(path)
 
     @staticmethod
+    def success_upload():
+        return '<green>Upload successful.</green>'
+
+    ######
+    # Info
+    @staticmethod
     def info_counting():
         return '<blue>Size calculation...</blue>'
 
@@ -69,33 +89,5 @@ class AppTexts(Enum):
         return '<blue>Start creating a backup...</blue>'
 
     @staticmethod
-    def success_upload_ssh(hostname: str):
-        return '<green>Upload to ssh</green> "{}" <green>successful.</green>'.format(hostname)
-
-    @staticmethod
-    def info_upload_ssh(hostname: str):
-        return '<blue>Start downloading via ssh:</blue> {}'.format(hostname)
-
-    @staticmethod
-    def error_connect_ssh(hostname: str):
-        return '<red>Error connect ssh to</red> "{}" <red>host.</red>'.format(hostname)
-
-    @staticmethod
-    def error_exception_ssh(message: str):
-        return '<red>Catch exception: {}</red>'.format(message)
-
-    @staticmethod
-    def success_upload_ftp(hostname: str):
-        return '<green>Upload to ftp</green> "{}" <green>successful.</green>'.format(hostname)
-
-    @staticmethod
-    def info_upload_ftp(hostname: str):
-        return '<blue>Start downloading via ftp:</blue> {}'.format(hostname)
-
-    @staticmethod
-    def error_connect_ftp(hostname: str):
-        return '<red>Error connect ftp to</red> "{}" <red>host.</red>'.format(hostname)
-
-    @staticmethod
-    def error_exception_ftp(message: str):
-        return '<red>Catch exception: {}</red>'.format(message)
+    def info_upload(method: str, hostname: str):
+        return '<blue>Start downloading via {}:</blue> {}'.format(method, hostname)
