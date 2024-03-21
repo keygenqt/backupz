@@ -28,7 +28,7 @@ limitations under the License.
 
 setuptools.setup(
     name='backupz',
-    version='2.0.0.1',
+    version='2.1.0.0',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='The application allows you to generate CHANGELOG files based on Git tags.',

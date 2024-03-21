@@ -11,7 +11,7 @@ mkdir ~/.local/opt
 ### Download
 
 ```shell
-wget -x https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.0.0.pyz \
+wget -x https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.1.0.pyz \
   -O ~/.local/opt/backupz.pyz
 ```
 

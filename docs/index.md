@@ -36,6 +36,26 @@ name: 'backupz_%d_%m_%Y'
 
 # Folder for save
 folder: ~/
+
+# Array folders SSH for save
+# {
+#   hostname: 192.168.2.15
+#   username: defaultuser
+#   port: 22
+#   path: /path/to/folder
+#   auth: 'password' or '/path/to/id_rsa'
+# }
+ssh: []
+
+# Array folders FTP for save
+# {
+#   hostname: 192.168.2.15
+#   username: defaultuser
+#   password: '00000'
+#   port: 22
+#   path: /path/to/folder
+# }
+ftp: []
 ```
 
 ### License

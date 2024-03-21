@@ -29,7 +29,7 @@ from backupz.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'backupz'
-APP_VERSION = '2.0.0'
+APP_VERSION = '2.1.0'
 
 # Default path config
 PATH_CONF = '~/.backupz/configuration.yaml'
