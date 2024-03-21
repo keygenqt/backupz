@@ -33,6 +33,10 @@ class AppTexts(Enum):
         return '<red>Application</red> "pigz" <red>not found, install it.</red>'
 
     @staticmethod
+    def error_dependency_git():
+        return '<red>Application</red> "git" <red>not found, install it.</red>'
+
+    @staticmethod
     def error_load_key(key: str):
         return '<red>Error reading configuration file. Check the</red> "{}" <red>parameter.</red>'.format(key)
 
@@ -56,7 +60,11 @@ class AppTexts(Enum):
 
     @staticmethod
     def error_exception(message: str):
-        return '<red>Catch exception: {}</red>'.format(message)
+        return '<red>Catch exception: {}</red>'.format(message.strip())
+
+    @staticmethod
+    def error_clone_project(url: str):
+        return '<red>Git project error clone:</red> {}'.format(url)
 
     ##########
     # Confirms
@@ -78,6 +86,10 @@ class AppTexts(Enum):
     def success_upload():
         return '<green>Upload successful.</green>'
 
+    @staticmethod
+    def success_clone_project(path: str):
+        return '<green>Git clone successfully:</green> {}'.format(path)
+
     ######
     # Info
     @staticmethod
@@ -91,3 +103,11 @@ class AppTexts(Enum):
     @staticmethod
     def info_upload(method: str, hostname: str):
         return '<blue>Start downloading via {}:</blue> {}'.format(method, hostname)
+
+    @staticmethod
+    def info_clone_project(path: str):
+        return '<yellow>Folder for git repository already exist:</yellow> {}'.format(path)
+
+    @staticmethod
+    def info_after_clone(path: str):
+        return '<yellow>Empty the folder if you think necessary:</yellow> {}'.format(path)

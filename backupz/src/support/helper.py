@@ -21,6 +21,16 @@ from typing import Callable
 from cffi.backend_ctypes import unicode
 
 
+# Get download folder
+def get_download_folder() -> Path:
+    download_dir = Path.home() / "Загрузки"
+    if not download_dir.is_dir():
+        download_dir = Path.home() / "Downloads"
+        if not download_dir.is_dir():
+            download_dir.mkdir(parents=True, exist_ok=True)
+    return download_dir
+
+
 # Get full path folder
 def get_path_folder(
         path: str

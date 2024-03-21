@@ -41,3 +41,9 @@ def check_dependency_init():
     except (Exception,):
         echo_stderr(AppTexts.error_dependency_pigz())
         exit(1)
+
+    try:
+        subprocess.run(['git', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency_git())
+        exit(1)

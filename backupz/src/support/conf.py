@@ -35,9 +35,13 @@ APP_VERSION = '2.1.0'
 PATH_CONF = '~/.backupz/configuration.yaml'
 
 CHANGELOG_CONF = r'''## Application configuration file Backupz
-## Version config: 0.0.3
+## Version config: 0.0.4
 
 # Folders and files for backup
+# - /path/to/you.file
+# - /path/to/folder
+# - git@github.com:git/ssh.git
+# - https://github.com/git/https.git
 backup:
   - ~/.backupz
 
