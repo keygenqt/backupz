@@ -28,12 +28,14 @@ from backupz.src.support.texts import AppTexts
 # Download file
 def downloads(urls: [str]) -> [Path]:
     download_files = []
+    exist_files = []
     for url in urls:
         # Get path to file
         download_path = get_download_folder() / os.path.basename(url)
         # Check if exist project
         if download_path.is_file():
             echo_stderr(AppTexts.info_download(str(download_path.absolute())))
+            exist_files.append(str(download_path))
         else:
             echo_stdout(AppTexts.info_download_start(url))
             download_files.append({'url': url, 'path': download_path})
@@ -45,7 +47,7 @@ def downloads(urls: [str]) -> [Path]:
     download_files = multi_download(download_files, catch_error)
     if download_files:
         echo_stdout(AppTexts.success_downloads())
-    return download_files
+    return download_files + exist_files
 
 
 # Clone git project
