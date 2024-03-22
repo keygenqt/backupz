@@ -26,7 +26,7 @@ from requests import Response
 # Request with check
 def get_request(url: str) -> Response | None:
     try:
-        return requests.get(url, stream=True)
+        return requests.get(url, stream=True, timeout=3)
     except (Exception,):
         return None
 
@@ -40,6 +40,7 @@ def multi_download(download_info: [dict], error_download) -> [Path]:
 
     # Files list
     files = [str(item['path']) for item in download_info]
+    files_start_download = []
 
     # Multidownload length
     total_counter = 0
@@ -50,16 +51,23 @@ def multi_download(download_info: [dict], error_download) -> [Path]:
     pool2 = Pool(len(download_info))
 
     # Counter length with get (not all head return size in content-length
-    def add_length(content_length: int):
+    def add_length(content_length: int, file: str):
         # values
         nonlocal total_length
         nonlocal total_counter
+        nonlocal files_start_download
         # count
+        files_start_download.append(file)
         total_length += content_length
         total_counter += 1
         # run progress
         if total_counter == len(download_info):
             pool1.apply_async(_multi_progress, [total_length, files])
+
+    def _error_download(url: str):
+        for file in files_start_download:
+            Path(file).unlink(missing_ok=True)
+        error_download(url)
 
     # Run download
     for item in download_info:
@@ -67,7 +75,7 @@ def multi_download(download_info: [dict], error_download) -> [Path]:
             item['url'],
             item['path'],
             add_length,
-            error_download
+            _error_download
         ])
 
     pool2.close()
@@ -84,7 +92,7 @@ def _download(url: str, file: Path, content_length, content_error):
     if not r:
         content_error(url)
         return
-    content_length(int(r.headers.get('content-length')))
+    content_length(int(r.headers.get('content-length')), file)
     with get_request(url) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
