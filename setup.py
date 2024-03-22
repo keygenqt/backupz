@@ -1,7 +1,7 @@
 import setuptools
 
 long_description = """
-![picture](https://github.com/keygenqt/backupz/blob/main/data/banners/banner_round.png?raw=true)
+![picture](https://github.com/keygenqt/backupz/blob/main/data/banners/banner_round_grey.png?raw=true)
 
 Create and save a backup archive in multiple processes.
 
@@ -28,7 +28,7 @@ limitations under the License.
 
 setuptools.setup(
     name='backupz',
-    version='2.1.0.0',
+    version='2.2.0.0',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='The application allows you to generate CHANGELOG files based on Git tags.',
