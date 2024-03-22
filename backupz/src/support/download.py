@@ -27,13 +27,13 @@ from requests import Response
 def get_request(url: str) -> Response | None:
     try:
         return requests.get(url, stream=True)
-    except requests.exceptions.ConnectionError:
+    except (Exception,):
         return None
 
 
 # Download files with progress
 # [{'url': url, 'path': download_path}]
-def multi_download(download_info: [dict]) -> [Path]:
+def multi_download(download_info: [dict], error_download) -> [Path]:
     # Check is empty
     if not download_info:
         return []
@@ -61,9 +61,19 @@ def multi_download(download_info: [dict]) -> [Path]:
         if total_counter == len(download_info):
             pool1.apply_async(_multi_progress, [total_length, files])
 
+    def _error_download(url: str):
+        nonlocal files
+        files = [str(item['path']) for item in download_info if item['url'] != url]
+        error_download(url)
+
     # Run download
     for item in download_info:
-        pool2.apply_async(_download, [item['url'], item['path'], add_length])
+        pool2.apply_async(_download, [
+            item['url'],
+            item['path'],
+            add_length,
+            _error_download
+        ])
 
     pool2.close()
     pool2.join()
@@ -74,17 +84,17 @@ def multi_download(download_info: [dict]) -> [Path]:
 
 
 # Run download file
-def _download(url: str, file: Path, content_length) -> bool:
+def _download(url: str, file: Path, content_length, content_error):
     r = get_request(url)
-    content_length(int(r.headers.get('content-length')))
     if not r:
-        return False
+        content_error(url)
+        return
+    content_length(int(r.headers.get('content-length')))
     with get_request(url) as r:
         r.raise_for_status()
         with open(file, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
                 f.write(chunk)
-    return True
 
 
 # Show progress

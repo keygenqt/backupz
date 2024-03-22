@@ -38,8 +38,9 @@ def downloads(urls: [str]) -> [Path]:
             echo_stdout(AppTexts.info_download_start(url))
             download_files.append({'url': url, 'path': download_path})
 
-    download_files = multi_download(download_files)
-    echo_stdout(AppTexts.success_downloads())
+    download_files = multi_download(download_files, lambda _url: echo_stderr(AppTexts.error_download(_url)))
+    if download_files:
+        echo_stdout(AppTexts.success_downloads())
     return download_files
 
 
@@ -57,11 +58,14 @@ def git_clone(url: str) -> Path | None:
         echo_stderr(AppTexts.info_clone_project(str(clone_path.absolute())))
     else:
         echo_stdout(AppTexts.info_clone_start(url))
-        Repo.clone_from(
-            url=url,
-            to_path=clone_path,
-            progress=ProgressAliveBarGit(AppTexts.success_clone_project(clone_path))  # noqa
-        )
+        try:
+            Repo.clone_from(
+                url=url,
+                to_path=clone_path,
+                progress=ProgressAliveBarGit(AppTexts.success_clone_project(clone_path))  # noqa
+            )
+        except (Exception,):
+            return None
 
     return clone_path
 

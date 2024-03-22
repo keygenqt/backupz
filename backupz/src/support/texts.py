@@ -66,6 +66,10 @@ class AppTexts(Enum):
     def error_clone_project(url: str):
         return '<red>Git project error clone:</red> {}'.format(url)
 
+    @staticmethod
+    def error_download(url: str):
+        return '<red>Error download:</red> {}'.format(url)
+
     ##########
     # Confirms
     @staticmethod
