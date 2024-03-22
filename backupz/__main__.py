@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import click
+from click import Context
 
 from backupz.src.features.group_make import group_make
 from backupz.src.support.conf import Conf
@@ -22,8 +23,11 @@ from backupz.src.support.dependency import check_dependency_init
 
 check_dependency_init()
 
-# Path for save archive
-config: Conf | None = None
+# Global config
+_config: Conf | None = None
+
+# Global context
+_ctx: Context | None = None
 
 
 @click.group(invoke_without_command=True)
@@ -34,17 +38,25 @@ config: Conf | None = None
     help='Specify config path.',
     type=click.STRING,
     required=False)
-def main(conf: str):
-    global config
-    config = Conf(conf)
-    group_make(config)
+@click.option(
+    '-d',
+    '--delete',
+    is_flag=True,
+    default=False,
+    required=True, help="Delete download folder")
+def main(conf: str, delete: bool):
+    global _config
+    _config = Conf(conf)
+    group_make(_config, delete)
 
 
 if __name__ == '__main__':
     try:
-        main(obj={}, standalone_mode=False)
+        main(standalone_mode=False)
+    except click.exceptions.UsageError:
+        main()
     except click.exceptions.Abort:
-        path_to_save = config.get_path_to_save()
+        path_to_save = _config.get_path_to_save()
         # Remove file archive if abort
         if path_to_save:
             path_to_save.unlink()

@@ -23,12 +23,18 @@ from cffi.backend_ctypes import unicode
 
 # Get download folder
 def get_download_folder() -> Path:
+    # Select download dir
     download_dir = Path.home() / "Загрузки"
     if not download_dir.is_dir():
         download_dir = Path.home() / "Downloads"
         if not download_dir.is_dir():
             download_dir.mkdir(parents=True, exist_ok=True)
-    return download_dir
+    # Create temp folder
+    path = download_dir / 'backupz'
+    if not path.is_dir():
+        path.mkdir(parents=True, exist_ok=True)
+
+    return path
 
 
 # Get full path folder

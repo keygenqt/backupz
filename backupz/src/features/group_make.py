@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import multiprocessing
+import shutil
 
 from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads
 from backupz.src.support.conf import Conf
@@ -24,7 +25,7 @@ from backupz.src.support.texts import AppTexts
 
 
 # Create archive with backup
-def group_make(config: Conf):
+def group_make(config: Conf, is_delete_temp: bool):
     """Generate backup."""
 
     # Exclude files by regex
@@ -126,5 +127,9 @@ def group_make(config: Conf):
         ftp.upload(config.get_path_to_save())
 
     # Info abot cache
-    if gits:
+    if not is_delete_temp and (gits or urls):
         echo_stdout(AppTexts.info_after_clone(str(get_download_folder())))
+
+    # Delete files if need
+    if is_delete_temp:
+        shutil.rmtree(get_download_folder(), ignore_errors=True)
