@@ -61,18 +61,13 @@ def multi_download(download_info: [dict], error_download) -> [Path]:
         if total_counter == len(download_info):
             pool1.apply_async(_multi_progress, [total_length, files])
 
-    def _error_download(url: str):
-        nonlocal files
-        files = [str(item['path']) for item in download_info if item['url'] != url]
-        error_download(url)
-
     # Run download
     for item in download_info:
         pool2.apply_async(_download, [
             item['url'],
             item['path'],
             add_length,
-            _error_download
+            error_download
         ])
 
     pool2.close()

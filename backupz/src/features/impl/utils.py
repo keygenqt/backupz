@@ -38,7 +38,11 @@ def downloads(urls: [str]) -> [Path]:
             echo_stdout(AppTexts.info_download_start(url))
             download_files.append({'url': url, 'path': download_path})
 
-    download_files = multi_download(download_files, lambda _url: echo_stderr(AppTexts.error_download(_url)))
+    def catch_error(error_url):
+        echo_stderr(AppTexts.error_download(error_url))
+        os._exit(1)  # noqa
+
+    download_files = multi_download(download_files, catch_error)
     if download_files:
         echo_stdout(AppTexts.success_downloads())
     return download_files
