@@ -12,9 +12,13 @@ This is the default configuration file:
 
 ```yaml
 ## Application configuration file Backupz
-## Version config: 0.0.2
+## Version config: 0.0.4
 
 # Folders and files for backup
+# - /path/to/you.file
+# - /path/to/folder
+# - git@github.com:git/ssh.git
+# - https://github.com/git/https.git
 backup:
   - ~/.backupz
 
@@ -35,7 +39,7 @@ compression: best
 name: 'backupz_%d_%m_%Y'
 
 # Folder for save
-folder: ~/
+folder: ~/backupz
 
 # Array folders SSH for save
 # {
