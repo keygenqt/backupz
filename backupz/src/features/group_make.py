@@ -14,53 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import multiprocessing
-import os
-from pathlib import Path
 
-from git import Repo
-
+from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads
 from backupz.src.support.conf import Conf
 from backupz.src.support.helper import get_path_folder, get_path_file, pc_command, get_download_folder
 from backupz.src.support.output import echo_stderr, echo_stdout
 from backupz.src.support.progress_alive_bar import ProgressAliveBar
-from backupz.src.support.progress_alive_bar_git import ProgressAliveBarGit
 from backupz.src.support.texts import AppTexts
-
-
-# Clone git project
-def _git_clone(url: str) -> Path | None:
-    # Get path
-    clone_path = get_download_folder() / os.path.basename(url).replace('.git', '')
-
-    # Check if path file
-    if clone_path.is_file():
-        return None
-
-    # Check if exist project
-    if clone_path.is_dir():
-        echo_stderr(AppTexts.info_clone_project(str(clone_path.absolute())))
-    else:
-        echo_stdout(AppTexts.info_upload('git', url))
-        Repo.clone_from(
-            url=url,
-            to_path=clone_path,
-            progress=ProgressAliveBarGit(AppTexts.success_clone_project(clone_path))  # noqa
-        )
-
-    return clone_path
-
-
-# Get block size file or folder
-def _get_size_blocks(path_data: str, excludes: []) -> int | None:
-    result = pc_command([
-                            'du',
-                            '-sk',
-                        ] + excludes + [path_data])
-    find = [data.replace(path_data, '').strip() for data in result if path_data in data]
-    if find:
-        return int(find[0])
-    else:
-        return None
 
 
 # Create archive with backup
@@ -71,13 +31,19 @@ def group_make(config: Conf):
     excludes = ['--exclude={}'.format(exclude) for exclude in config.get_exclude()]
 
     gits = []
+    urls = []
     files = []
     folders = []
 
     # Parse backup file and folder from config
     for item in config.get_backup_paths():
+        # Check is git repos
         if '.git' in item and ('git@' in item or 'https' in item):
             gits.append(item)
+            continue
+        # Check is url
+        if 'http://' in item or 'https://' in item:
+            urls.append(item)
             continue
         # is a file
         path = get_path_file(item)
@@ -92,13 +58,17 @@ def group_make(config: Conf):
         echo_stderr(AppTexts.error_found_path(item))
         exit(1)
 
+    # Run clone repos
     for item in gits:
-        path = _git_clone(item)
+        path = git_clone(item)
         if not path:
             echo_stderr(AppTexts.error_clone_project(item))
             exit(1)
         else:
             folders.append(str(path))
+
+    # Run multi downloads
+    files = files + downloads(urls)
 
     if not files and not folders:
         echo_stderr(AppTexts.error_empty_data())
@@ -109,9 +79,9 @@ def group_make(config: Conf):
     # Get total size for progress
     total_size_blocks = 0
     for item in files:
-        total_size_blocks += _get_size_blocks(item, excludes)
+        total_size_blocks += get_size_blocks(item, excludes)
     for item in folders:
-        total_size_blocks += _get_size_blocks(item, excludes)
+        total_size_blocks += get_size_blocks(item, excludes)
 
     # Create ssh bar
     bar = ProgressAliveBar()

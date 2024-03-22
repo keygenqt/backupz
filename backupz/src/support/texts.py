@@ -90,6 +90,10 @@ class AppTexts(Enum):
     def success_clone_project(path: str):
         return '<green>Git clone successfully:</green> {}'.format(path)
 
+    @staticmethod
+    def success_downloads():
+        return '<green>Downloads successful.</green>'
+
     ######
     # Info
     @staticmethod
@@ -102,7 +106,19 @@ class AppTexts(Enum):
 
     @staticmethod
     def info_upload(method: str, hostname: str):
-        return '<blue>Start downloading via {}:</blue> {}'.format(method, hostname)
+        return '<blue>Start upload via {}:</blue> {}'.format(method, hostname)
+
+    @staticmethod
+    def info_clone_start(url: str):
+        return '<blue>Start clone:</blue> {}'.format(url)
+
+    @staticmethod
+    def info_download_start(url: str):
+        return '<blue>Start download:</blue> {}'.format(url)
+
+    @staticmethod
+    def info_download(path: str):
+        return '<yellow>File already exist:</yellow> {}'.format(path)
 
     @staticmethod
     def info_clone_project(path: str):
