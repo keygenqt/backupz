@@ -49,6 +49,19 @@ class ProgressAliveBar:
         else:
             self.update(self.transferred_up, total)
 
+    def spinner_start(self, title: str | None = "") -> None:
+        if not self.alive_bar_instance:
+            self._dispatch_bar_spinner(title)
+
+    def spinner_end(self) -> None:
+        self._destroy_bar()
+        if self.message_success:
+            echo_stdout(self.message_success)
+
+    def _dispatch_bar_spinner(self, title: str | None = "") -> None:
+        self.alive_bar_instance = alive_bar(monitor=None, stats=None, title=title, stats_end=False)
+        self.bar = self.alive_bar_instance.__enter__()
+
     def _dispatch_bar(self, title: str | None = "") -> None:
         self.counter = 0
         self.transferred_up = 0

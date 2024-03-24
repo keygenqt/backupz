@@ -16,13 +16,58 @@ limitations under the License.
 import os
 from pathlib import Path
 
+import requests
 from git import Repo
+from pytube import YouTube, extract
 
 from backupz.src.support.download import multi_download
 from backupz.src.support.helper import get_download_folder, pc_command
 from backupz.src.support.output import echo_stderr, echo_stdout
+from backupz.src.support.progress_alive_bar import ProgressAliveBar
 from backupz.src.support.progress_alive_bar_git import ProgressAliveBarGit
 from backupz.src.support.texts import AppTexts
+
+
+# Download video from youtube
+def youtube_download(url: str) -> Path | None:
+    try:
+        bar = ProgressAliveBar(AppTexts.success_downloads())
+
+        def on_complete_callback(stream, event):
+            # Download image preview max size
+            try:
+                image_path = get_download_folder() / stream.default_filename.replace('.mp4', '') / 'maxresdefault.jpg'
+                image_url = 'https://i.ytimg.com/vi/{}/maxresdefault.jpg'.format(extract.video_id(url))
+                r = requests.get(image_url, allow_redirects=True)
+                open(image_path, 'wb').write(r.content)
+            except (Exception,):
+                pass
+            # End progress
+            bar.spinner_end()
+
+        # Get YouTube video
+        echo_stdout(AppTexts.info_get_info_video())
+        yt = YouTube(url, on_complete_callback=on_complete_callback)
+        # Get path to file
+        download_path = get_download_folder() / yt.streams.first().default_filename.replace('.mp4', '')
+        # Check if exist file
+        if download_path.is_dir():
+            echo_stderr(AppTexts.info_download(str(download_path.absolute())))
+            return download_path
+        else:
+            echo_stdout(AppTexts.info_download_start(url))
+            bar.spinner_start()
+            # Download max resolution
+            (yt.streams
+             .filter(progressive=True, file_extension='mp4')
+             .order_by('resolution')
+             .desc()
+             .first()
+             .download(output_path=download_path))
+            return download_path
+    except (Exception,):
+        pass
+    return None
 
 
 # Download file
@@ -32,7 +77,7 @@ def downloads(urls: [str]) -> [Path]:
     for url in urls:
         # Get path to file
         download_path = get_download_folder() / os.path.basename(url)
-        # Check if exist project
+        # Check if exist file
         if download_path.is_file():
             echo_stderr(AppTexts.info_download(str(download_path.absolute())))
             exist_files.append(str(download_path))

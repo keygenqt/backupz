@@ -131,3 +131,7 @@ class AppTexts(Enum):
     @staticmethod
     def info_after_clone(path: str):
         return '<yellow>Empty the folder if you think necessary:</yellow> {}'.format(path)
+
+    @staticmethod
+    def info_get_info_video():
+        return '<blue>Getting information about a video...</blue>'

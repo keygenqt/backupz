@@ -16,7 +16,7 @@ limitations under the License.
 import multiprocessing
 import shutil
 
-from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads
+from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads, youtube_download
 from backupz.src.support.conf import Conf
 from backupz.src.support.dependency import check_dependency_git
 from backupz.src.support.helper import get_path_folder, get_path_file, pc_command, get_download_folder
@@ -43,11 +43,16 @@ def group_make(config: Conf, is_delete_temp: bool):
 
     gits = []
     urls = []
+    youtube = []
     files = []
     folders = []
 
     # Parse backup file and folder from config
     for item in config.get_backup_paths():
+        # Check is link YouTube
+        if 'youtu.be' in item or 'youtube.com' in item:
+            youtube.append(item)
+            continue
         # Check is git repos
         if '.git' in item and ('git@' in item or 'https' in item):
             check_dependency_git()
@@ -78,6 +83,15 @@ def group_make(config: Conf, is_delete_temp: bool):
             exit(1)
         else:
             folders.append(str(path))
+
+    # Run download video youtube
+    for item in youtube:
+        path = youtube_download(item)
+        if not path:
+            echo_stderr(AppTexts.error_download(item))
+            exit(1)
+        else:
+            files.append(str(path))
 
     # Run multi downloads
     files = files + downloads(urls)
