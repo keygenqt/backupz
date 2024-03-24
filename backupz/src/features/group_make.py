@@ -18,6 +18,7 @@ import shutil
 
 from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads
 from backupz.src.support.conf import Conf
+from backupz.src.support.dependency import check_dependency_git
 from backupz.src.support.helper import get_path_folder, get_path_file, pc_command, get_download_folder
 from backupz.src.support.output import echo_stderr, echo_stdout
 from backupz.src.support.progress_alive_bar import ProgressAliveBar
@@ -40,6 +41,7 @@ def group_make(config: Conf, is_delete_temp: bool):
     for item in config.get_backup_paths():
         # Check is git repos
         if '.git' in item and ('git@' in item or 'https' in item):
+            check_dependency_git()
             gits.append(item)
             continue
         # Check is url
