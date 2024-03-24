@@ -39,7 +39,6 @@ _ctx: Context | None = None
     type=click.STRING,
     required=False)
 @click.option(
-    '-d',
     '--delete',
     is_flag=True,
     default=False,

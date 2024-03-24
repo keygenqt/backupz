@@ -29,6 +29,15 @@ from backupz.src.support.texts import AppTexts
 def group_make(config: Conf, is_delete_temp: bool):
     """Generate backup."""
 
+    # Execute command before dump
+    for command in config.get_execute_commands():
+        import subprocess
+        try:
+            subprocess.run(command, check=True, shell=True, capture_output=True)
+        except subprocess.CalledProcessError as e:
+            echo_stderr(AppTexts.error_exception(str(e)))
+            exit(1)
+
     # Exclude files by regex
     excludes = ['--exclude={}'.format(exclude) for exclude in config.get_exclude()]
 

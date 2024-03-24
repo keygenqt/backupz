@@ -35,7 +35,7 @@ APP_VERSION = '2.2.0'
 PATH_CONF = '~/.backupz/configuration.yaml'
 
 CHANGELOG_CONF = r'''## Application configuration file Backupz
-## Version config: 0.0.4
+## Version config: 0.0.5
 
 # Folders and files for backup
 # - /path/to/you.file
@@ -44,6 +44,9 @@ CHANGELOG_CONF = r'''## Application configuration file Backupz
 # - https://github.com/git/https.git
 backup:
   - ~/.backupz
+
+# Execute command before dump
+execute: []
 
 # https://linux.die.net/man/1/tar
 # Exclude by regex (tar --exclude)
@@ -255,3 +258,20 @@ class Conf:
                     path=ftp['path'],
                 ))
             return datas_ftp
+
+    # Get commands execute before dump from config
+    def get_execute_commands(self) -> [str]:
+        if 'execute' not in self.conf.keys():
+            echo_stderr(AppTexts.error_load_key('execute'))
+            exit(1)
+        else:
+            commands: [] = []
+            if not isinstance(self.conf['execute'], list):
+                echo_stderr(AppTexts.error_load_key('execute'))
+                exit(1)
+            for command in self.conf['execute']:
+                if not isinstance(command, str):
+                    echo_stderr(AppTexts.error_load_key('execute'))
+                    exit(1)
+                commands.append(command)
+            return commands

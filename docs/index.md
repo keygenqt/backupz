@@ -12,7 +12,7 @@ This is the default configuration file:
 
 ```yaml
 ## Application configuration file Backupz
-## Version config: 0.0.4
+## Version config: 0.0.5
 
 # Folders and files for backup
 # - /path/to/you.file
@@ -21,6 +21,9 @@ This is the default configuration file:
 # - https://github.com/git/https.git
 backup:
   - ~/.backupz
+
+# Execute command before dump
+execute: []
 
 # https://linux.die.net/man/1/tar
 # Exclude by regex (tar --exclude)
