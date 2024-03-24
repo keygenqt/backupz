@@ -25,21 +25,21 @@ def check_dependency_init():
     try:
         subprocess.run(['du', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stderr(AppTexts.error_dependency_du())
+        echo_stderr(AppTexts.error_dependency('du'))
         exit(1)
 
     # Check tar application
     try:
         subprocess.run(['tar', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stderr(AppTexts.error_dependency_tar())
+        echo_stderr(AppTexts.error_dependency('tar'))
         exit(1)
 
     # Check pigz application
     try:
         subprocess.run(['pigz', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stderr(AppTexts.error_dependency_pigz())
+        echo_stderr(AppTexts.error_dependency('pigz'))
         exit(1)
 
 
@@ -48,5 +48,14 @@ def check_dependency_git():
     try:
         subprocess.run(['git', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except (Exception,):
-        echo_stderr(AppTexts.error_dependency_git())
+        echo_stderr(AppTexts.error_dependency('git'))
+        exit(1)
+
+
+# Check dependency ffmpeg
+def check_dependency_ffmpeg():
+    try:
+        subprocess.run(['ffmpeg', '--version'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except (Exception,):
+        echo_stderr(AppTexts.error_dependency('ffmpeg'))
         exit(1)

@@ -3,7 +3,7 @@
 ### Install dependencies
 
 ```shell
-sudo apt update && sudo apt install tar pigz git
+sudo apt update && sudo apt install tar pigz git ffmpeg
 ```
 
 ### Install application

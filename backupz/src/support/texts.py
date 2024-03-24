@@ -21,20 +21,8 @@ class AppTexts(Enum):
     ########
     # Errors
     @staticmethod
-    def error_dependency_du():
-        return '<red>Application</red> "du" <red>not found, install it.</red>'
-
-    @staticmethod
-    def error_dependency_tar():
-        return '<red>Application</red> "tar" <red>not found, install it.</red>'
-
-    @staticmethod
-    def error_dependency_pigz():
-        return '<red>Application</red> "pigz" <red>not found, install it.</red>'
-
-    @staticmethod
-    def error_dependency_git():
-        return '<red>Application</red> "git" <red>not found, install it.</red>'
+    def error_dependency(name: str):
+        return '<red>Application</red> "{}" <red>not found, install it.</red>'.format(name)
 
     @staticmethod
     def error_load_key(key: str):

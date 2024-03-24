@@ -23,7 +23,7 @@ This is the default configuration file:
 # HTTP git repo
 # - https://github.com/git/https.git
 # Download file by url
-# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.2.0.pyz
+# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.3.0.pyz
 # Download YouTube video, pytube seems to be playing cat and mouse with 1080p resolution
 # - https://www.youtube.com/watch?v=N2_7kqSmTZU
 backup:

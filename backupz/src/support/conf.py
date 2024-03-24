@@ -29,7 +29,7 @@ from backupz.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'backupz'
-APP_VERSION = '2.2.0'
+APP_VERSION = '2.3.0'
 
 # Default path config
 PATH_CONF = '~/.backupz/configuration.yaml'
@@ -46,7 +46,7 @@ CHANGELOG_CONF = r'''## Application configuration file Backupz
 # HTTP git repo
 # - https://github.com/git/https.git
 # Download file by url
-# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.2.0.pyz
+# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.3.0.pyz
 # Download youtube video, pytube seems to be playing cat and mouse with 1080p resolution
 # - https://www.youtube.com/watch?v=N2_7kqSmTZU
 backup:
