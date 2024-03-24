@@ -16,4 +16,4 @@ You can create a backup from:
 * The `execute` section allows you to execute commands before the backup, which will allow you to save, for example,
   databases.
 
-You can save the resulting archive in the package specified to you and upload it to the server via FTP or SSH.
+You can save the resulting archive in the package specified to you and upload it to the server via `FTP` or `SSH`.

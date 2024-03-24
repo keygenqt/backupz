@@ -1,4 +1,4 @@
-# Config Git repos
+# Git repositories
 
 The application can clone Git repositories, a great way to make a GitHub backup:
 

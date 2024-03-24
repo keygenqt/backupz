@@ -1,4 +1,4 @@
-# Config files and folders
+# Files and folders
 
 In the configuration file, specify the files and folders that will be saved in the archive:
 

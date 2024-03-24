@@ -21,8 +21,8 @@ nav:
   - Using:
       - Index: using/index.md
       - Config: using/config.md
-      - Files: using/files.md
-      - Files url: using/files_url.md
+      - Files & Folders: using/files.md
+      - Files URL: using/files_url.md
       - Git repos: using/git.md
       - Execute: using/execute.md
       - YouTube: using/youtube.md

@@ -1,4 +1,4 @@
-# Config YouTube videos
+# YouTube videos
 
 By specifying links to videos from YouTube, the application downloads the video and saves it in the archive:
 

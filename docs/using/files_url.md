@@ -1,4 +1,4 @@
-# Config files and folders
+# Files by URL
 
 By specifying links to files, they will be downloaded and saved in the Downloads/backupz folder:
 

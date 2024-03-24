@@ -1,4 +1,4 @@
-# Config execute
+# Execute
 
 You can execute the necessary commands by specifying them in the configuration file section:
 
