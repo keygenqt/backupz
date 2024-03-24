@@ -53,6 +53,7 @@ backup:
   - ~/.backupz
 
 # Execute command before dump
+# Example: mysqldump -u root -p00000 my_db > ~/my_db.sql
 execute: []
 
 # https://linux.die.net/man/1/tar
