@@ -30,10 +30,8 @@ class DataTelegram:
         # Get client
         client = self.__client()
         async with client:
-            # Getting information about yourself
-            me = await client.get_me()
-            # "me" is a user object. You can pretty-print
-            # any Telegram object with the "stringify" method:
-            print(me.stringify())
             # send message
-            await client.send_message('+79889498250', "It's console app - backupz")
+            await client.send_message(
+                'username',
+                'Я приложение Backupz, что бы мне такое забэкапить... =)'
+            )
