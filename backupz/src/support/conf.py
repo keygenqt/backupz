@@ -113,9 +113,13 @@ class Conf:
 
     @staticmethod
     def _get_path_conf(path, default):
+        # Get file --conf
         path = get_path_file(path)
 
-        default = get_path_file(default, none=False)
+        # Create dir if not exist
+        path_dir = os.path.dirname(default)
+        if not os.path.isdir(path_dir):
+            Path(path_dir).mkdir()
 
         if path and str(path).lower().endswith('.yaml'):
             return path
@@ -129,12 +133,6 @@ class Conf:
         if not click.confirm(AppTexts.confirm_init()):
             exit(0)
 
-        path_dir = os.path.dirname(path)
-
-        # Create dir if not exist
-        if not os.path.isdir(path_dir):
-            Path(path_dir).mkdir()
-
         # Write default configuration file
         with open(path, 'w') as file:
             print(CHANGELOG_CONF, file=file)
@@ -144,8 +142,12 @@ class Conf:
     def __init__(self, path):
         # Save start time
         self.start_time = datetime.now()
+        # Default config path
+        default = get_path_file(PATH_CONF, none=False)
         # Get path config
-        self.conf_path = Conf._get_path_conf(path, default=PATH_CONF)
+        self.conf_path = Conf._get_path_conf(path, default=default)
+        # Temp folder
+        self.temp_path = Path(os.path.dirname(default))
 
         # Load config
         with open(self.conf_path, 'rb') as file:
@@ -300,6 +302,7 @@ class Conf:
             return DataTelegram(
                 api_id=self.conf['telegram']['api_id'],
                 api_hash=self.conf['telegram']['api_hash'],
+                path_session=self.temp_path
             )
 
     # Get commands execute before dump from config

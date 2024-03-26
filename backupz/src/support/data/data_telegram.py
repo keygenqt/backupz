@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 from telethon import TelegramClient
 
@@ -8,6 +9,7 @@ class DataTelegram:
     """Class contains data about telegram connects."""
     api_id: int
     api_hash: str
+    path_session: Path
 
     @staticmethod
     def validate(data: dict) -> bool:
@@ -19,7 +21,7 @@ class DataTelegram:
 
     def __client(self) -> TelegramClient | None:
         try:
-            return TelegramClient('anon', self.api_id, self.api_hash)
+            return TelegramClient(str(self.path_session / 'telegram.session'), self.api_id, self.api_hash)
         except (Exception,):
             pass
         return None
@@ -33,3 +35,5 @@ class DataTelegram:
             # "me" is a user object. You can pretty-print
             # any Telegram object with the "stringify" method:
             print(me.stringify())
+            # send message
+            await client.send_message('+79889498250', "It's console app - backupz")
