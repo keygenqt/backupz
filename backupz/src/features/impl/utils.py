@@ -21,7 +21,7 @@ from git import Repo
 from pytube import YouTube, extract
 
 from backupz.src.support.download import multi_download
-from backupz.src.support.helper import get_download_folder, pc_command
+from backupz.src.support.helper import pc_command
 from backupz.src.support.output import echo_stderr, echo_stdout
 from backupz.src.support.progress_alive_bar import ProgressAliveBar
 from backupz.src.support.progress_alive_bar_git import ProgressAliveBarGit
@@ -29,14 +29,14 @@ from backupz.src.support.texts import AppTexts
 
 
 # Download video from youtube
-def youtube_download(url: str) -> Path | None:
+def youtube_download(folder: Path, url: str) -> Path | None:
     try:
         bar = ProgressAliveBar(AppTexts.success_downloads())
 
         def on_complete_callback(stream, event):
             # Download image preview max size
             try:
-                image_path = get_download_folder() / stream.default_filename.replace('.mp4', '') / 'maxresdefault.jpg'
+                image_path = folder / stream.default_filename.replace('.mp4', '') / 'maxresdefault.jpg'
                 image_url = 'https://i.ytimg.com/vi/{}/maxresdefault.jpg'.format(extract.video_id(url))
                 r = requests.get(image_url, allow_redirects=True)
                 open(image_path, 'wb').write(r.content)
@@ -49,7 +49,7 @@ def youtube_download(url: str) -> Path | None:
         echo_stdout(AppTexts.info_get_info_video())
         yt = YouTube(url, on_complete_callback=on_complete_callback)
         # Get path to file
-        download_path = get_download_folder() / yt.streams.first().default_filename.replace('.mp4', '')
+        download_path = folder / yt.streams.first().default_filename.replace('.mp4', '')
         # Check if exist file
         if download_path.is_dir():
             echo_stderr(AppTexts.info_download(str(download_path.absolute())))
@@ -71,12 +71,12 @@ def youtube_download(url: str) -> Path | None:
 
 
 # Download file
-def downloads(urls: [str]) -> [Path]:
+def downloads(folder: Path, urls: [str]) -> [Path]:
     download_files = []
     exist_files = []
     for url in urls:
         # Get path to file
-        download_path = get_download_folder() / os.path.basename(url)
+        download_path = folder / os.path.basename(url)
         # Check if exist file
         if download_path.is_file():
             echo_stderr(AppTexts.info_download(str(download_path.absolute())))
@@ -96,9 +96,9 @@ def downloads(urls: [str]) -> [Path]:
 
 
 # Clone git project
-def git_clone(url: str) -> Path | None:
+def git_clone(folder: Path, url: str) -> Path | None:
     # Get path
-    clone_path = get_download_folder() / os.path.basename(url).replace('.git', '')
+    clone_path = folder / os.path.basename(url).replace('.git', '')
 
     # Check if path file
     if clone_path.is_file():

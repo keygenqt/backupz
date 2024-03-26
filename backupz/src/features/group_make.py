@@ -13,13 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import asyncio
 import multiprocessing
 import shutil
 
 from backupz.src.features.impl.utils import git_clone, get_size_blocks, downloads, youtube_download
 from backupz.src.support.conf import Conf
 from backupz.src.support.dependency import check_dependency_git, check_dependency_ffmpeg
-from backupz.src.support.helper import get_path_folder, get_path_file, pc_command, get_download_folder
+from backupz.src.support.helper import get_path_folder, get_path_file, pc_command
 from backupz.src.support.output import echo_stderr, echo_stdout
 from backupz.src.support.progress_alive_bar import ProgressAliveBar
 from backupz.src.support.texts import AppTexts
@@ -38,17 +39,25 @@ def group_make(config: Conf, is_delete_temp: bool):
             echo_stderr(AppTexts.error_exception(str(e)))
             exit(1)
 
+    # Download folder
+    download_folder = config.get_download_folder()
+
     # Exclude files by regex
     excludes = ['--exclude={}'.format(exclude) for exclude in config.get_exclude()]
 
     gits = []
     urls = []
+    telegram_urls = []
     youtube = []
     files = []
     folders = []
 
     # Parse backup file and folder from config
     for item in config.get_backup_paths():
+        # Check is link Telegram
+        if 't.me' in item:
+            telegram_urls.append(item)
+            continue
         # Check is link YouTube
         if 'youtu.be' in item or 'youtube.com' in item:
             check_dependency_ffmpeg()
@@ -76,9 +85,18 @@ def group_make(config: Conf, is_delete_temp: bool):
         echo_stderr(AppTexts.error_found_path(item))
         exit(1)
 
+    ##################### @todo
+    if telegram_urls and not config.get_telegram():
+        echo_stderr(AppTexts.error_telegram_configuration())
+        exit(1)
+
+    asyncio.run(config.get_telegram().start())
+    exit(1)
+    #####################
+
     # Run clone repos
     for item in gits:
-        path = git_clone(item)
+        path = git_clone(download_folder, item)
         if not path:
             echo_stderr(AppTexts.error_clone_project(item))
             exit(1)
@@ -87,7 +105,7 @@ def group_make(config: Conf, is_delete_temp: bool):
 
     # Run download video youtube
     for item in youtube:
-        path = youtube_download(item)
+        path = youtube_download(download_folder, item)
         if not path:
             echo_stderr(AppTexts.error_download(item))
             exit(1)
@@ -95,7 +113,7 @@ def group_make(config: Conf, is_delete_temp: bool):
             files.append(str(path))
 
     # Run multi downloads
-    files = files + downloads(urls)
+    files = files + downloads(download_folder, urls)
 
     if not files and not folders:
         echo_stderr(AppTexts.error_empty_data())
@@ -154,8 +172,8 @@ def group_make(config: Conf, is_delete_temp: bool):
 
     # Info abot cache
     if not is_delete_temp and (gits or urls):
-        echo_stdout(AppTexts.info_after_clone(str(get_download_folder())))
+        echo_stdout(AppTexts.info_after_clone(str(download_folder)))
 
     # Delete files if need
     if is_delete_temp:
-        shutil.rmtree(get_download_folder(), ignore_errors=True)
+        shutil.rmtree(download_folder, ignore_errors=True)

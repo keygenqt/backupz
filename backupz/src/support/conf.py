@@ -23,6 +23,7 @@ from yaml import load
 
 from backupz.src.support.data.data_ftp import DataFTP
 from backupz.src.support.data.data_ssh import DataSSH
+from backupz.src.support.data.data_telegram import DataTelegram
 from backupz.src.support.helper import get_path_file, get_path_folder
 from backupz.src.support.output import echo_stdout, echo_stderr
 from backupz.src.support.texts import AppTexts
@@ -49,6 +50,8 @@ CHANGELOG_CONF = r'''## Application configuration file Backupz
 # - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.3.0.pyz
 # Download youtube video, pytube seems to be playing cat and mouse with 1080p resolution
 # - https://www.youtube.com/watch?v=N2_7kqSmTZU
+# Backup posts Telegram
+# - https://t.me/aurora_dev
 backup:
   - ~/.backupz
 
@@ -139,12 +142,29 @@ class Conf:
         echo_stdout(AppTexts.success_init(str(path)), 2)
 
     def __init__(self, path):
+        # Save start time
+        self.start_time = datetime.now()
         # Get path config
         self.conf_path = Conf._get_path_conf(path, default=PATH_CONF)
 
         # Load config
         with open(self.conf_path, 'rb') as file:
             self.conf = load(file.read(), Loader=Loader)
+
+    # Get download folder
+    def get_download_folder(self) -> Path:
+        # Select download dir
+        download_dir = Path.home() / "Загрузки"
+        if not download_dir.is_dir():
+            download_dir = Path.home() / "Downloads"
+            if not download_dir.is_dir():
+                download_dir.mkdir(parents=True, exist_ok=True)
+        # Create temp folder
+        path = download_dir / 'backupz_{}'.format(self.start_time.strftime('%f'))
+        if not path.is_dir():
+            path.mkdir(parents=True, exist_ok=True)
+
+        return path
 
     # Get path for save tar.gz archive
     def get_path_to_save(self) -> Path:
@@ -266,6 +286,21 @@ class Conf:
                     path=ftp['path'],
                 ))
             return datas_ftp
+
+    # Get ftp from config
+    def get_telegram(self) -> DataTelegram | None:
+        if 'telegram' not in self.conf.keys():
+            return None
+        else:
+            if not isinstance(self.conf['telegram'], dict):
+                echo_stderr(AppTexts.error_load_key('telegram'))
+                exit(1)
+            if not DataTelegram.validate(self.conf['telegram']):
+                return None
+            return DataTelegram(
+                api_id=self.conf['telegram']['api_id'],
+                api_hash=self.conf['telegram']['api_hash'],
+            )
 
     # Get commands execute before dump from config
     def get_execute_commands(self) -> [str]:

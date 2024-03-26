@@ -58,6 +58,13 @@ class AppTexts(Enum):
     def error_download(url: str):
         return '<red>Error download:</red> {}'.format(url)
 
+    @staticmethod
+    def error_telegram_configuration():
+        return ('<red>Check your configuration file.</red>\n'
+                '<yellow>To use a telegram bot you need to specify</yellow> '
+                '"api_id" <yellow>and</yellow> '
+                '"api_hash"<yellow>.</yellow>')
+
     ##########
     # Confirms
     @staticmethod
