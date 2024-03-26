@@ -90,7 +90,7 @@ def group_make(config: Conf, is_delete_temp: bool):
         echo_stderr(AppTexts.error_telegram_configuration())
         exit(1)
 
-    asyncio.run(config.get_telegram().start())
+    asyncio.run(config.get_telegram().test_message())
     exit(1)
     #####################
 

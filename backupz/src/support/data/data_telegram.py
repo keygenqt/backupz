@@ -26,7 +26,8 @@ class DataTelegram:
             pass
         return None
 
-    async def start(self):
+    # Send message for test
+    async def test_message(self):
         # Get client
         client = self.__client()
         async with client:
