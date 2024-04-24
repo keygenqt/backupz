@@ -24,7 +24,7 @@ class DataTelegram:
     async def __client(self) -> TelegramClient | None:
         try:
             client = TelegramClient(
-                str(self.path_session / '.raffle_telegram.session'),
+                str(self.path_session / '.backupz_telegram.session'),
                 self.api_id,
                 self.api_hash
             )
