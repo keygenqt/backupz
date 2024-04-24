@@ -51,6 +51,10 @@ class AppTexts(Enum):
         return '<red>Catch exception: {}</red>'.format(message.strip())
 
     @staticmethod
+    def error_telegram_get_posts(url: str):
+        return '<red>Telegram error get posts:</red> {}'.format(url)
+
+    @staticmethod
     def error_clone_project(url: str):
         return '<red>Git project error clone:</red> {}'.format(url)
 

@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import asyncio
 import multiprocessing
 import shutil
 
@@ -85,14 +84,18 @@ def group_make(config: Conf, is_delete_temp: bool):
         echo_stderr(AppTexts.error_found_path(item))
         exit(1)
 
-    ##################### @todo
+    # Run save posts
     if telegram_urls and not config.get_telegram():
         echo_stderr(AppTexts.error_telegram_configuration())
         exit(1)
 
-    asyncio.run(config.get_telegram().test_message())
-    exit(1)
-    #####################
+    for url in telegram_urls:
+        for path in config.get_telegram().get_posts(url):
+            if not path:
+                echo_stderr(AppTexts.error_telegram_get_posts(url))
+                exit(1)
+            else:
+                folders.append(str(path))
 
     # Run clone repos
     for item in gits:
