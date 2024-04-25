@@ -90,7 +90,7 @@ def group_make(config: Conf, is_delete_temp: bool):
         exit(1)
 
     for url in telegram_urls:
-        for path in config.get_telegram().get_posts(url):
+        for path in config.get_telegram().get_posts(url, download_folder):
             if not path:
                 echo_stderr(AppTexts.error_telegram_get_posts(url))
                 exit(1)

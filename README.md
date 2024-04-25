@@ -9,6 +9,15 @@ Backupz
 
 Create and save a backup archive in multiple processes.
 
+#### Can make backups from:
+
+- GitHub
+- YouTube
+- Telegram
+- Database
+- Folders/Files
+- Files from direct links
+
 #### Documentation:
 <p>
     <a href="https://keygenqt.github.io/backupz">

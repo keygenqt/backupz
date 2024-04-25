@@ -21,11 +21,12 @@ nav:
   - Using:
       - Index: using/index.md
       - Config: using/config.md
+      - Git repos: using/git.md
+      - YouTube: using/youtube.md
+      - Telegram: using/telegram.md
+      - Execute: using/execute.md
       - Files & Folders: using/files.md
       - Files URL: using/files_url.md
-      - Git repos: using/git.md
-      - Execute: using/execute.md
-      - YouTube: using/youtube.md
 
 # Assets
 extra_css:

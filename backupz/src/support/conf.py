@@ -30,13 +30,13 @@ from backupz.src.support.texts import AppTexts
 
 # Data versions
 APP_NAME = 'backupz'
-APP_VERSION = '2.3.0'
+APP_VERSION = '2.4.0'
 
 # Default path config
 PATH_CONF = '~/.backupz/configuration.yaml'
 
 CHANGELOG_CONF = r'''## Application configuration file Backupz
-## Version config: 0.0.5
+## Version config: 0.0.6
 
 # Path to file
 # - /path/to/you.file
@@ -47,13 +47,19 @@ CHANGELOG_CONF = r'''## Application configuration file Backupz
 # HTTP git repo
 # - https://github.com/git/https.git
 # Download file by url
-# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.3.0.pyz
-# Download youtube video, pytube seems to be playing cat and mouse with 1080p resolution
+# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.4.0.pyz
+# Download YouTube video (720p)
 # - https://www.youtube.com/watch?v=N2_7kqSmTZU
 # Backup posts Telegram
-# - https://t.me/aurora_dev
+# - https://t.me/channel_name
 backup:
   - ~/.backupz
+
+# For backup telegram post channel
+# Use your own values from my.telegram.org
+# telegram:
+#   api_id: 0000000
+#   api_hash: 00000000000000000000000000000000
 
 # Execute command before dump
 # Example: mysqldump -u root -p00000 my_db > ~/my_db.sql
@@ -76,7 +82,7 @@ compression: best
 name: 'backupz_%d_%m_%Y'
 
 # Folder for save
-folder: ~/backupz
+folder: ~/
 
 # Array folders SSH for save
 # {

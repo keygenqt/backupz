@@ -5,7 +5,7 @@ This file is used to configure the data backup application.
 
 ```yaml
 ## Application configuration file Backupz
-## Version config: 0.0.5
+## Version config: 0.0.6
 
 # Path to file
 # - /path/to/you.file
@@ -16,9 +16,11 @@ This file is used to configure the data backup application.
 # HTTP git repo
 # - https://github.com/git/https.git
 # Download file by url
-# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.3.0.pyz
-# Download YouTube video, pytube seems to be playing cat and mouse with 1080p resolution
+# - https://github.com/keygenqt/backupz/raw/main/builds/backupz-2.4.0.pyz
+# Download YouTube video (720p)
 # - https://www.youtube.com/watch?v=N2_7kqSmTZU
+# Backup posts Telegram
+# - https://t.me/channel_name
 backup:
   - ~/.backupz
 
@@ -43,7 +45,7 @@ compression: best
 name: 'backupz_%d_%m_%Y'
 
 # Folder for save
-folder: ~/backupz
+folder: ~/
 
 # Array folders SSH for save
 # {

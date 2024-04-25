@@ -5,6 +5,15 @@ long_description = """
 
 Create and save a backup archive in multiple processes.
 
+#### Can make backups from:
+
+- GitHub
+- YouTube
+- Telegram
+- Database
+- Folders/Files
+- Files from direct links
+
 [More...](https://keygenqt.github.io/backupz)
 
 ### License
@@ -28,7 +37,7 @@ limitations under the License.
 
 setuptools.setup(
     name='backupz',
-    version='2.3.0.0',
+    version='2.4.0.0',
     author='Vitaliy Zarubin',
     author_email='keygenqt@gmail.com',
     description='The application allows you to generate CHANGELOG files based on Git tags.',
