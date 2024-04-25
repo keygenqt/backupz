@@ -1,4 +1,4 @@
-## Updated: 03/24/2024 14:33:06 PM
+## Updated: 04/25/2024 19:46:17 PM
 
 ## Info
 
@@ -10,6 +10,16 @@
 - Version: 2.2.0 (22/03/2024)
 - Version: 2.1.0 (21/03/2024)
 - Version: 2.0.0 (16/03/2024)
+
+### HEAD (25/04/2024)
+
+#### Bug
+
+- Fix --delete multiple.
+
+#### Feature
+
+- Backup Telegram channel.
 
 ### Version: 2.3.0 (24/03/2024)
 
