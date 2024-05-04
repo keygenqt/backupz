@@ -25,7 +25,7 @@ Create and save a backup archive in multiple processes.
     </a>
 </p>
 
-#### Article about Backupz (ru):
+#### Article about Backupz:
 <p>
     <a href="https://keygenqt.com/blog/17">
         <img src="data/other/see_more.gif" width="136px"/>
