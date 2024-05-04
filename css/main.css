@@ -1,0 +1,35 @@
+.md-grid {
+    max-width: 1300px;
+}
+
+.md-header__topic:first-child {
+    font-weight: normal;
+}
+
+:root {
+  --md-primary-fg-color: #1a557b;
+  --md-primary-bg-color: white;
+}
+
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: #1a557b;
+  --md-primary-fg-color--dark: #1f4037;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: #12415f;
+    --md-typeset-a-color: #1f95e1;
+    --md-primary-fg-color--dark: #12415f;
+}
+
+[title="Edit this page"] {
+    display: none;
+}
+
+[data-md-component="content"] h1 {
+    display: none;
+}
+
+[data-md-component="content"] h1[id] {
+    display: inherit;
+}
